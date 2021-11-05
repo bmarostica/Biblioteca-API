@@ -39,6 +39,13 @@ public class LivroRepository {
                 .collect(Collectors.toList());
     }
 
+    public LivroEntity listById(Integer id) throws RegraDeNegocioException {
+        return livros.stream()
+                .filter(livro -> livro.getIdLivro().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RegraDeNegocioException("Livro não localizado!"));
+    }
+
     public LivroEntity update(Integer id, LivroEntity livroAtualizar) throws RegraDeNegocioException {
         LivroEntity livroRecuperado = livros.stream()
                 .filter(livro -> livro.getIdLivro().equals(id))

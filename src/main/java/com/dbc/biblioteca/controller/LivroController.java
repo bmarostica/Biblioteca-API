@@ -60,6 +60,20 @@ public class LivroController {
         return livroService.listByName(titulo);
     }
 
+    @ApiOperation("Retorna um livro de acordo com o ID informado")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
+            @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
+            @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
+    })
+    @GetMapping("/{id}")
+    public LivroDTO listById(@PathVariable("id") Integer id) throws RegraDeNegocioException {
+        log.info("Buscando livro...");
+        LivroDTO livroDTO = livroService.listById(id);
+        log.info("Livro localizado com sucesso!");
+        return livroDTO;
+    }
+
     @ApiOperation("Atualiza um livro existente.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Livro atualizado com sucesso!"),

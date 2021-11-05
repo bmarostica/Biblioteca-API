@@ -40,6 +40,14 @@ public class LivroService {
                 .collect(Collectors.toList());
     }
 
+    public LivroDTO listById(Integer id) throws RegraDeNegocioException {
+        LivroEntity livroEntity = livroRepository.listById(id);
+
+        LivroDTO livroDTO = objectMapper.convertValue(livroEntity, LivroDTO.class);
+
+        return livroDTO;
+    }
+
     public LivroDTO update(Integer id, LivroCreateDTO livroCreateDTO) throws RegraDeNegocioException {
         LivroEntity livroEntity = objectMapper.convertValue(livroCreateDTO, LivroEntity.class);
         LivroEntity livroAtualizado = livroRepository.update(id, livroEntity);
