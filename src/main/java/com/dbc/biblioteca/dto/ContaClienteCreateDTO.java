@@ -35,10 +35,6 @@ public class ContaClienteCreateDTO {
     private String email;
 
     @NotNull
-    @ApiModelProperty(value = "Livro do Cliente")
-    private LivroDTO livro;
-
-    @NotNull
     @ApiModelProperty(value = "Status do Cliente -> 1 para OK, 2 para CANCELADO e 3 para BLOQUEADO")
     private StatusCliente status;
 

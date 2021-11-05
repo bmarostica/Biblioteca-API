@@ -40,8 +40,8 @@ public class LivroService {
                 .collect(Collectors.toList());
     }
 
-    public LivroDTO listById(Integer id) throws RegraDeNegocioException {
-        LivroEntity livroEntity = livroRepository.listById(id);
+    public LivroDTO getById(Integer id) throws RegraDeNegocioException {
+        LivroEntity livroEntity = livroRepository.getById(id);
 
         LivroDTO livroDTO = objectMapper.convertValue(livroEntity, LivroDTO.class);
 

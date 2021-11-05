@@ -39,7 +39,7 @@ public class LivroRepository {
                 .collect(Collectors.toList());
     }
 
-    public LivroEntity listById(Integer id) throws RegraDeNegocioException {
+    public LivroEntity getById(Integer id) throws RegraDeNegocioException {
         return livros.stream()
                 .filter(livro -> livro.getIdLivro().equals(id))
                 .findFirst()
