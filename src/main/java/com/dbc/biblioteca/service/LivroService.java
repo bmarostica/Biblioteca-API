@@ -19,7 +19,7 @@ public class LivroService {
     private final LivroRepository livroRepository;
     private final ObjectMapper objectMapper;
 
-    private LivroDTO create(LivroCreateDTO livroCreateDTO) {
+    public LivroDTO create(LivroCreateDTO livroCreateDTO) {
         LivroEntity livroEntity = objectMapper.convertValue(livroCreateDTO, LivroEntity.class);
         LivroEntity livroCriado = livroRepository.create(livroEntity);
 
@@ -28,19 +28,19 @@ public class LivroService {
         return livroDTO;
     }
 
-    private List<LivroDTO> list() {
+    public List<LivroDTO> list() {
         return livroRepository.list().stream()
                 .map(livro -> objectMapper.convertValue(livro, LivroDTO.class))
                 .collect(Collectors.toList());
     }
 
-    private List<LivroDTO> listByName(String titulo) {
+    public List<LivroDTO> listByName(String titulo) {
         return livroRepository.listByName(titulo).stream()
                 .map(livro -> objectMapper.convertValue(livro, LivroDTO.class))
                 .collect(Collectors.toList());
     }
 
-    private LivroDTO update(Integer id, LivroCreateDTO livroCreateDTO) throws RegraDeNegocioException {
+    public LivroDTO update(Integer id, LivroCreateDTO livroCreateDTO) throws RegraDeNegocioException {
         LivroEntity livroEntity = objectMapper.convertValue(livroCreateDTO, LivroEntity.class);
         LivroEntity livroAtualizado = livroRepository.update(id, livroEntity);
 
@@ -49,7 +49,7 @@ public class LivroService {
         return livroDTO;
     }
 
-    private void delete(Integer id) throws RegraDeNegocioException {
+    public void delete(Integer id) throws RegraDeNegocioException {
         livroRepository.delete(id);
     }
 
