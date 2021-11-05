@@ -37,4 +37,8 @@ public class EmprestimoService {
         return emprestimoDTO;
     }
 
+    public void delete(Integer id) throws Exception {
+        emprestimoRepository.delete(id);
+    }
+
 }
