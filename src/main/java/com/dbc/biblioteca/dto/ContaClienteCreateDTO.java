@@ -2,7 +2,6 @@ package com.dbc.biblioteca.dto;
 
 import com.dbc.biblioteca.entity.LivroEntity;
 import com.dbc.biblioteca.entity.StatusCliente;
-import com.dbc.biblioteca.entity.TipoCliente;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
