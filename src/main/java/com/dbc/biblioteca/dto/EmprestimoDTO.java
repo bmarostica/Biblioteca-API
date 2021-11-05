@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmprestimoDTO extends EmprestimoCreateDTO{
+public class EmprestimoDTO {
     private Integer idEmprestimo;
+    private LivroDTO livroDTO;
+    private FuncionarioDTO funcionarioDTO;
+    private ContaClienteDTO contaClienteDTO;
+
 }

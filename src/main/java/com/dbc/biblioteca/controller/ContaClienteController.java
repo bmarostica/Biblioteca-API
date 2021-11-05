@@ -2,6 +2,7 @@ package com.dbc.biblioteca.controller;
 
 import com.dbc.biblioteca.dto.ContaClienteCreateDTO;
 import com.dbc.biblioteca.dto.ContaClienteDTO;
+import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
 import com.dbc.biblioteca.service.ContaClienteService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -30,18 +31,18 @@ public class ContaClienteController {
 
     @ApiOperation(value = "Busca uma conta por seu ID")
     @GetMapping("/{idCliente}")
-    public ContaClienteDTO getById(@PathVariable("idCliente") Integer idCliente) throws Exception {
+    public ContaClienteDTO getById(@PathVariable("idCliente") Integer idCliente) throws RegraDeNegocioException {
         return contaClienteService.getById(idCliente);
     }
 
     @ApiOperation(value = "Cria uma nova conta")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Conta atualizada com sucesso!"),
+            @ApiResponse(code = 200, message = "Conta criada com sucesso!"),
             @ApiResponse(code = 400, message = "Conta com dados inconsistentes"),
             @ApiResponse(code = 500, message = "Exceção no sistema")
     })
     @PostMapping
-    public ContaClienteDTO create(@RequestBody @Valid ContaClienteCreateDTO contaClienteCreateDTO) throws Exception {
+    public ContaClienteDTO create(@RequestBody @Valid ContaClienteCreateDTO contaClienteCreateDTO) throws RegraDeNegocioException {
         log.info("Iniciando a criação da conta...");
         ContaClienteDTO contaEntityCriado = contaClienteService.create(contaClienteCreateDTO);
         log.info("Conta criada com sucesso!");
@@ -56,7 +57,7 @@ public class ContaClienteController {
     })
     @PutMapping("/{idCliente}")
     public ContaClienteDTO update(@PathVariable("idCliente") Integer id,
-                                  @RequestBody @Valid ContaClienteCreateDTO contaClienteCreateDTO) throws Exception {
+                                  @RequestBody @Valid ContaClienteCreateDTO contaClienteCreateDTO) throws RegraDeNegocioException {
         return contaClienteService.update(id, contaClienteCreateDTO);
     }
 
@@ -67,7 +68,7 @@ public class ContaClienteController {
             @ApiResponse(code = 500, message = "Exceção no sistema")
     })
     @DeleteMapping("/{idCliente}")
-    public void delete(@PathVariable("idCliente") Integer id) throws Exception {
+    public void delete(@PathVariable("idCliente") Integer id) throws RegraDeNegocioException {
         contaClienteService.delete(id);
     }
 }

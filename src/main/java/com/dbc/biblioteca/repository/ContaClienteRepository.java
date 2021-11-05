@@ -1,8 +1,11 @@
 package com.dbc.biblioteca.repository;
 
-import com.dbc.biblioteca.entity.ContaClienteEntity;
 import com.dbc.biblioteca.dto.LivroDTO;
+import com.dbc.biblioteca.entity.ContaClienteEntity;
+import com.dbc.biblioteca.entity.LivroEntity;
 import com.dbc.biblioteca.entity.StatusCliente;
+import com.dbc.biblioteca.entity.TipoCliente;
+import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -16,20 +19,20 @@ public class ContaClienteRepository  {
     private static LivroDTO livro1 = new LivroDTO();
 
     public ContaClienteRepository() {
-        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 1, "Marcelo", "998855220", "marcelo@email.com", livro1, StatusCliente.OK, 25));
-        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 0, "Bianca", "805552650", "bianca@email.com", livro1, StatusCliente.OK, 40));
-        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 1, "David", "923312320", "david@email.com", livro1, StatusCliente.BLOQUEADO, 0));
+        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 1, "Marcelo", "998855220", "marcelo@email.com", StatusCliente.OK, 25));
+        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 0, "Bianca", "805552650", "bianca@email.com", StatusCliente.OK, 40));
+        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 1, "David", "923312320", "david@email.com", StatusCliente.BLOQUEADO, 0));
     }
 
     public List<ContaClienteEntity> list() {
         return listaClientesEntities;
     }
 
-    public ContaClienteEntity getById(Integer id) throws Exception {
+    public ContaClienteEntity getById(Integer id) throws RegraDeNegocioException {
         return listaClientesEntities.stream()
                 .filter(contaCliente -> contaCliente.getIdCliente().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new Exception("Conta não encontrada"));
+                .orElseThrow(() -> new RegraDeNegocioException("Conta não encontrada"));
     }
 
     public ContaClienteEntity create(ContaClienteEntity contaClienteEntity) {
@@ -38,26 +41,25 @@ public class ContaClienteRepository  {
         return contaClienteEntity;
     }
 
-    public ContaClienteEntity update(Integer id, ContaClienteEntity contaAtualizar) throws Exception {
+    public ContaClienteEntity update(Integer id, ContaClienteEntity contaAtualizar) throws RegraDeNegocioException {
         ContaClienteEntity contaRecuperada = listaClientesEntities.stream()
                 .filter(cliente -> cliente.getIdCliente().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new Exception("Conta não encontrada"));
+                .orElseThrow(() -> new RegraDeNegocioException("Conta não encontrada"));
         contaRecuperada.setTipoCliente(contaAtualizar.getTipoCliente());
         contaRecuperada.setNome(contaAtualizar.getNome());
         contaRecuperada.setTelefone(contaAtualizar.getTelefone());
         contaRecuperada.setEmail(contaAtualizar.getEmail());
-        contaRecuperada.setLivro(contaAtualizar.getLivro());
         contaRecuperada.setStatus(contaAtualizar.getStatus());
         contaRecuperada.setPontosFidelidade(contaAtualizar.getPontosFidelidade());
         return contaRecuperada;
     }
 
-    public void delete(Integer id) throws Exception {
+    public void delete(Integer id) throws RegraDeNegocioException {
         ContaClienteEntity contaRecuperada = listaClientesEntities.stream()
                 .filter(conta -> conta.getIdCliente().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new Exception("Conta não encontrada"));
+                .orElseThrow(() -> new RegraDeNegocioException("Conta não encontrada"));
         listaClientesEntities.remove(contaRecuperada);
     }
 }

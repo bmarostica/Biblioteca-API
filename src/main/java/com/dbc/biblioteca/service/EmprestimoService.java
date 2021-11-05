@@ -4,7 +4,10 @@ import com.dbc.biblioteca.dto.EmprestimoCreateDTO;
 import com.dbc.biblioteca.dto.EmprestimoDTO;
 import com.dbc.biblioteca.entity.EmprestimoEntity;
 import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
+import com.dbc.biblioteca.repository.ContaClienteRepository;
 import com.dbc.biblioteca.repository.EmprestimoRepository;
+import com.dbc.biblioteca.repository.FuncionarioRepository;
+import com.dbc.biblioteca.repository.LivroRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,28 +19,58 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class EmprestimoService {
     private final EmprestimoRepository emprestimoRepository;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
+    private final ContaClienteService contaClienteService;
+    private final FuncionarioService funcionarioService;
+    private final LivroService livroService;
 
     public List<EmprestimoDTO> list() {
         return emprestimoRepository.list().stream()
-                .map(emprestimo -> objectMapper.convertValue(emprestimo, EmprestimoDTO.class))
+                .map(emprestimo -> {
+                    EmprestimoDTO dto = objectMapper.convertValue(emprestimo, EmprestimoDTO.class);
+                    try {
+                        dto.setContaClienteDTO(contaClienteService.getById(emprestimo.getIdClienteEmprestimo()));
+                        dto.setFuncionarioDTO(funcionarioService.getById(emprestimo.getIdFuncionarioEmprestimo()));
+                        dto.setLivroDTO(livroService.listById(emprestimo.getIdLivroEmprestimo()));
+                    } catch (RegraDeNegocioException e) {
+                        e.printStackTrace();
+                    }
+                    return dto;
+                })
                 .collect(Collectors.toList());
     }
 
     public EmprestimoDTO getById(Integer id) throws RegraDeNegocioException {
         EmprestimoEntity entity = emprestimoRepository.getById(id);
         EmprestimoDTO dto = objectMapper.convertValue(entity, EmprestimoDTO.class);
+        dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
+        dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
+        dto.setLivroDTO(livroService.listById(entity.getIdLivroEmprestimo()));
         return dto;
     }
 
-    public EmprestimoDTO crete(EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
-        EmprestimoEntity emprestimoEntity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
-        EmprestimoEntity emprestimoCriado = emprestimoRepository.create(emprestimoEntity);
-        EmprestimoDTO emprestimoDTO = objectMapper.convertValue(emprestimoCriado, EmprestimoDTO.class);
-        return emprestimoDTO;
+    public EmprestimoDTO create(EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
+        EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
+        EmprestimoEntity emprestimoCriado = emprestimoRepository.create(entity);
+        EmprestimoDTO dto = objectMapper.convertValue(emprestimoCriado, EmprestimoDTO.class);
+        dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
+        dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
+        dto.setLivroDTO(livroService.listById(entity.getIdLivroEmprestimo()));
+
+        return dto;
     }
 
-    public void delete(Integer id) throws Exception {
+    public EmprestimoDTO update(Integer id, EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
+        EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
+        EmprestimoEntity atualizado = emprestimoRepository.update(id, entity);
+        EmprestimoDTO dto = objectMapper.convertValue(atualizado, EmprestimoDTO.class);
+        dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
+        dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
+        dto.setLivroDTO(livroService.listById(entity.getIdLivroEmprestimo()));
+        return dto;
+    }
+
+    public void delete(Integer id) throws RegraDeNegocioException {
         emprestimoRepository.delete(id);
     }
 

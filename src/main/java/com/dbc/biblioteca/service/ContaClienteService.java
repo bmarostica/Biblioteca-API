@@ -4,6 +4,7 @@ import com.dbc.biblioteca.dto.ContaClienteCreateDTO;
 import com.dbc.biblioteca.dto.ContaClienteDTO;
 import com.dbc.biblioteca.entity.ContaClienteEntity;
 import com.dbc.biblioteca.entity.PlanosDeAssinatura;
+import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
 import com.dbc.biblioteca.repository.ContaClienteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -24,27 +25,27 @@ public class ContaClienteService  implements PlanosDeAssinatura {
                 .collect(Collectors.toList());
     }
 
-    public ContaClienteDTO getById(Integer id) throws Exception {
+    public ContaClienteDTO getById(Integer id) throws RegraDeNegocioException {
         ContaClienteEntity entity = contaClienteRepository.getById(id);
         ContaClienteDTO dto = objectMapper.convertValue(entity, ContaClienteDTO.class);
         return dto;
     }
 
-    public ContaClienteDTO create(ContaClienteCreateDTO contaClienteCreateDTO) throws Exception {
+    public ContaClienteDTO create(ContaClienteCreateDTO contaClienteCreateDTO) throws RegraDeNegocioException {
         ContaClienteEntity contaClienteEntity = objectMapper.convertValue(contaClienteCreateDTO, ContaClienteEntity.class);
         ContaClienteEntity contaCriada = contaClienteRepository.create(contaClienteEntity);
         ContaClienteDTO contaClienteDTO = objectMapper.convertValue(contaCriada, ContaClienteDTO.class);
         return contaClienteDTO;
     }
 
-    public ContaClienteDTO update(Integer id, ContaClienteCreateDTO contaClienteCreateDTO) throws Exception {
+    public ContaClienteDTO update(Integer id, ContaClienteCreateDTO contaClienteCreateDTO) throws RegraDeNegocioException {
         ContaClienteEntity entity = objectMapper.convertValue(contaClienteCreateDTO, ContaClienteEntity.class);
         ContaClienteEntity update = contaClienteRepository.update(id, entity);
         ContaClienteDTO dto = objectMapper.convertValue(update, ContaClienteDTO.class);
         return dto;
     }
 
-    public void delete(Integer id) throws Exception {
+    public void delete(Integer id) throws RegraDeNegocioException {
         contaClienteRepository.delete(id);
     }
 

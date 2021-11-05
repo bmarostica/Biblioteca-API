@@ -23,6 +23,7 @@ import java.util.List;
 public class EmprestimoController {
     private final EmprestimoService emprestimoService;
 
+
     @ApiOperation(value = "Lista todos os empréstimos")
     @GetMapping
     public List<EmprestimoDTO> list() {
@@ -35,6 +36,7 @@ public class EmprestimoController {
         return emprestimoService.getById(idEmprestimo);
     }
 
+
     @ApiOperation(value = "Cria um novo Empréstimo")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Empréstimo criado com sucesso!"),
@@ -42,24 +44,26 @@ public class EmprestimoController {
             @ApiResponse(code = 500, message = "Exceção no sistema")
     })
     @PostMapping
-    public EmprestimoDTO create(@RequestBody @Valid EmprestimoDTO emprestimoCreateDTO) throws Exception {
+    public EmprestimoDTO create(@RequestBody @Valid EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
         log.info("Iniciando a criação do Empréstimo...");
-        EmprestimoDTO emprestimoEntityCriado = emprestimoService.crete(emprestimoCreateDTO);
+        EmprestimoDTO emprestimoEntityCriado = emprestimoService.create(emprestimoCreateDTO);
         log.info("Empréstimo criado com sucesso!");
         return emprestimoEntityCriado;
     }
 
-//    @ApiOperation(value = "Atualiza um empréstimo pelo ID informado")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Empréstimo atualizado com sucesso!"),
-//            @ApiResponse(code = 400, message = "Empréstimo com dados inconsistentes"),
-//            @ApiResponse(code = 500, message = "Exceção no sistema")
-//    })
-//    PutMapping("/{idEmprestimo}")
-//        public EmprestimoDTO update(@PathVariable("idEmprestimo") Integer id,
-//                                    @RequestBody @Valid EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
-//        return emprestimoService.update(id, emprestimoCreateDTO);
-//        }
+
+    @ApiOperation(value = "Atualiza um empréstimo pelo ID informado")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Empréstimo atualizado com sucesso!"),
+            @ApiResponse(code = 400, message = "Empréstimo com dados inconsistentes"),
+            @ApiResponse(code = 500, message = "Exceção no sistema")
+    })
+    @PutMapping("/{idEmprestimo}")
+        public EmprestimoDTO update(@PathVariable("idEmprestimo") Integer id,
+                                    @RequestBody @Valid EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
+        return emprestimoService.update(id, emprestimoCreateDTO);
+        }
+
 
     @ApiOperation(value = "Deleta um Empréstimo pelo seu ID")
     @ApiResponses(value = {
@@ -68,7 +72,7 @@ public class EmprestimoController {
             @ApiResponse(code = 500, message = "Exceção no sistema")
     })
     @DeleteMapping("/{idEmprestimo}")
-    public void delete(@PathVariable("idEmprestimo") Integer id) throws Exception {
+    public void delete(@PathVariable("idEmprestimo") Integer id) throws RegraDeNegocioException {
         emprestimoService.delete(id);
     }
 }

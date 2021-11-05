@@ -13,6 +13,11 @@ public class FuncionarioRepository {
     private static List<FuncionarioEntity> listaFuncionarios = new ArrayList<>();
     private AtomicInteger COUNTER = new AtomicInteger();
 
+    public FuncionarioRepository() {
+        listaFuncionarios.add(new FuncionarioEntity(COUNTER.incrementAndGet(), "Fulaninho", "55998889988", "fulano@gmail.com"));
+        listaFuncionarios.add(new FuncionarioEntity(COUNTER.incrementAndGet(), "Ciclaninha", "55996699988", "ciclana@gmail.com"));
+    }
+
 
     public List<FuncionarioEntity> list() {
         return listaFuncionarios;
@@ -42,5 +47,12 @@ public class FuncionarioRepository {
                 .orElseThrow(() -> new RegraDeNegocioException("Funcionário não encontrado."));
         listaFuncionarios.remove(funcionarioRecuperado);
 
+    }
+
+    public FuncionarioEntity getById(Integer id) throws RegraDeNegocioException {
+        return listaFuncionarios.stream()
+                .filter(funcionarioEntity -> funcionarioEntity.getIdFuncionario().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RegraDeNegocioException("Funcionário não encontrado."));
     }
 }

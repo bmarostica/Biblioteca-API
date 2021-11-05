@@ -41,4 +41,10 @@ public class FuncionarioService {
     public void delete(Integer id) throws RegraDeNegocioException {
         funcionarioRepository.delete(id);
     }
+
+    public FuncionarioDTO getById(Integer id) throws RegraDeNegocioException {
+        FuncionarioEntity entity = funcionarioRepository.getById(id);
+        FuncionarioDTO dto = objectMapper.convertValue(entity, FuncionarioDTO.class);
+        return dto;
+    }
 }

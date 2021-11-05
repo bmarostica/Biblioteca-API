@@ -24,19 +24,4 @@ public class EmprestimoCreateDTO {
     @NotNull
     @ApiModelProperty(value = "ID do funcionário")
     private Integer idFuncionarioEmprestimo;
-
-    @NotEmpty
-    @NotNull
-    @ApiModelProperty(value = "Título do Livro")
-    private String tituloLivroEmprestimo;
-
-    @NotEmpty
-    @NotNull
-    @ApiModelProperty(value = "Nome do cliente")
-    private String nomeClienteEmprestimo;
-
-    @NotEmpty
-    @NotNull
-    @ApiModelProperty(value = "Nome do funcionário")
-    private String nomeFuncionarioEmprestimo;
 }
