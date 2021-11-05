@@ -30,7 +30,7 @@ public class ContaClienteController {
 
     @ApiOperation(value = "Busca uma conta por seu ID")
     @GetMapping("/{idCliente}")
-    public ContaClienteDTO getById(@RequestParam("idCliente") Integer idCliente) throws Exception {
+    public ContaClienteDTO getById(@PathVariable("idCliente") Integer idCliente) throws Exception {
         return contaClienteService.getById(idCliente);
     }
 
@@ -62,11 +62,11 @@ public class ContaClienteController {
 
     @ApiOperation(value = "Delete uma conta pelo seu ID")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Conta atualizada com sucesso!"),
+            @ApiResponse(code = 200, message = "Conta deletada com sucesso!"),
             @ApiResponse(code = 400, message = "Conta com dados inconsistentes"),
             @ApiResponse(code = 500, message = "Exceção no sistema")
     })
-    @DeleteMapping("/{idPessoa}")
+    @DeleteMapping("/{idCliente}")
     public void delete(@PathVariable("idCliente") Integer id) throws Exception {
         contaClienteService.delete(id);
     }

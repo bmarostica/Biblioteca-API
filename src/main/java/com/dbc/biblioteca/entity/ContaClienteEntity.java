@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ContaClienteEntity {
     private Integer idCliente;
-    private TipoCliente tipoCliente;
+    private Integer tipoCliente;
     private String nome;
     private String telefone;
     private String email;

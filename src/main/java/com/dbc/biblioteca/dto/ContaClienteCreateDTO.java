@@ -4,16 +4,22 @@ import com.dbc.biblioteca.entity.LivroEntity;
 import com.dbc.biblioteca.entity.StatusCliente;
 import com.dbc.biblioteca.entity.TipoCliente;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ContaClienteCreateDTO {
+
     @NotBlank
-    @ApiModelProperty(value = "Tipo do Cliente -> 1 para comum e 2 para premium")
-    private TipoCliente tipoCliente;
+    @ApiModelProperty(value = "Tipo do Cliente -> 0 para comum e 1 para premium")
+    @Min(0)
+    @Max(1)
+    private Integer tipoCliente;
 
     @NotEmpty
     @NotBlank

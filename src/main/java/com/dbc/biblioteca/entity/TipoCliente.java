@@ -1,5 +1,7 @@
 package com.dbc.biblioteca.entity;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Arrays;
 
 public enum TipoCliente {
@@ -22,6 +24,11 @@ public enum TipoCliente {
                 .filter(tipo -> tipo.getTipo().equals(t))
                 .findFirst()
                 .get();
+    }
+
+    @JsonValue
+    public int toValue(){
+        return ordinal();
     }
 }
 

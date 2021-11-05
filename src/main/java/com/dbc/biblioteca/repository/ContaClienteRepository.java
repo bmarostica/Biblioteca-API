@@ -17,9 +17,9 @@ public class ContaClienteRepository  {
     private static LivroEntity livro1 = new LivroEntity();
 
     public ContaClienteRepository() {
-        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), TipoCliente.COMUM, "Marcelo", "998855220", "marcelo@email.com", livro1, StatusCliente.OK, 25));
-        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), TipoCliente.COMUM, "Bianca", "805552650", "bianca@email.com", livro1, StatusCliente.OK, 40));
-        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), TipoCliente.COMUM, "David", "923312320", "david@email.com", livro1, StatusCliente.BLOQUEADO, 0));
+        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 1, "Marcelo", "998855220", "marcelo@email.com", livro1, StatusCliente.OK, 25));
+        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 0, "Bianca", "805552650", "bianca@email.com", livro1, StatusCliente.OK, 40));
+        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 1, "David", "923312320", "david@email.com", livro1, StatusCliente.BLOQUEADO, 0));
     }
 
     public List<ContaClienteEntity> list() {
