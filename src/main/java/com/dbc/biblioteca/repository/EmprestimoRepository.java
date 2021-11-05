@@ -1,6 +1,7 @@
 package com.dbc.biblioteca.repository;
 
 import com.dbc.biblioteca.entity.EmprestimoEntity;
+import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +24,11 @@ public class EmprestimoRepository {
         return listaEmprestimoEntities;
     }
 
-    public EmprestimoEntity getById(Integer id) throws Exception {
+    public EmprestimoEntity getById(Integer id) throws RegraDeNegocioException {
         return listaEmprestimoEntities.stream()
                 .filter(emprestimo -> emprestimo.getIdEmprestimo().equals(id))
                 .findFirst()
-                .orElseThrow(() -> new Exception("Não encontrado."));
+                .orElseThrow(() -> new RegraDeNegocioException("Não encontrado."));
     }
 
     public EmprestimoEntity create(EmprestimoEntity emprestimoEntity) {
