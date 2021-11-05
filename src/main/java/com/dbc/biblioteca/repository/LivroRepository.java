@@ -2,6 +2,7 @@ package com.dbc.biblioteca.repository;
 
 import com.dbc.biblioteca.entity.LivroEntity;
 import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class LivroRepository {
 
     public List<LivroEntity> listByName(String titulo) {
         return livros.stream()
-                .filter(livro -> livro.getTitulo().equalsIgnoreCase(titulo))
+                .filter(livro -> StringUtils.containsIgnoreCase(livro.getTitulo(), titulo))
                 .collect(Collectors.toList());
     }
 
@@ -61,7 +62,6 @@ public class LivroRepository {
 
         livros.remove(livroRecuperado);
     }
-
 
 
 }
