@@ -69,7 +69,7 @@ public class LivroController {
     @GetMapping("/{id}")
     public LivroDTO listById(@PathVariable("id") Integer id) throws RegraDeNegocioException {
         log.info("Buscando livro...");
-        LivroDTO livroDTO = livroService.listById(id);
+        LivroDTO livroDTO = livroService.getById(id);
         log.info("Livro localizado com sucesso!");
         return livroDTO;
     }
