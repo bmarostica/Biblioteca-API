@@ -51,14 +51,14 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         return new ResponseEntity<>(body, badRequest);
     }
 
-//    @ExceptionHandler(com.dbc.pessoaapi.exceptions.RegraDeNegocioException.class)
-//    public ResponseEntity<Object> handleException(com.dbc.pessoaapi.exceptions.RegraDeNegocioException exception,
-//                                                  HttpServletRequest request) {
-//        Map<String, Object> body = new LinkedHashMap<>();
-//        body.put("timestamp", new Date());
-//        final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
-//        body.put("status", badRequest.value());
-//        body.put("message", exception.getMessage());
-//        return new ResponseEntity<>(body, badRequest);
-//    }
+    @ExceptionHandler(RegraDeNegocioException.class)
+    public ResponseEntity<Object> handleException(RegraDeNegocioException exception,
+                                                  HttpServletRequest request) {
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put("timestamp", new Date());
+        final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        body.put("status", badRequest.value());
+        body.put("message", exception.getMessage());
+        return new ResponseEntity<>(body, badRequest);
+    }
 }

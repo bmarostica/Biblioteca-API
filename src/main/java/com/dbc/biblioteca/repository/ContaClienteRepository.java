@@ -1,9 +1,8 @@
 package com.dbc.biblioteca.repository;
 
 import com.dbc.biblioteca.entity.ContaClienteEntity;
-import com.dbc.biblioteca.entity.LivroEntity;
+import com.dbc.biblioteca.dto.LivroDTO;
 import com.dbc.biblioteca.entity.StatusCliente;
-import com.dbc.biblioteca.entity.TipoCliente;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class ContaClienteRepository  {
     private static List<ContaClienteEntity> listaClientesEntities = new ArrayList<>();
     private AtomicInteger COUNTER = new AtomicInteger();
-    private static LivroEntity livro1 = new LivroEntity();
+    private static LivroDTO livro1 = new LivroDTO();
 
     public ContaClienteRepository() {
         listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 1, "Marcelo", "998855220", "marcelo@email.com", livro1, StatusCliente.OK, 25));

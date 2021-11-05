@@ -1,5 +1,6 @@
 package com.dbc.biblioteca.entity;
 
+import com.dbc.biblioteca.dto.LivroDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +14,7 @@ public class ContaClienteEntity {
     private String nome;
     private String telefone;
     private String email;
-    private LivroEntity livro;
+    private LivroDTO livro;
     private StatusCliente status;
     private Integer pontosFidelidade;
 

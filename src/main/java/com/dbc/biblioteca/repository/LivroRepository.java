@@ -17,6 +17,7 @@ public class LivroRepository {
 
     public LivroRepository() {
         livros.add(new LivroEntity(COUNTER.incrementAndGet(), "Harry Potter e o Prisioneiro de Azkaban", "J.K. Rowling", "Rocco", 317, 0, 0, 0));
+        livros.add(new LivroEntity(COUNTER.incrementAndGet(), "Harry Potter e a Ordem da Fênix", "J.K. Rowling", "Rocco", 518, 0, 0, 0));
         livros.add(new LivroEntity(COUNTER.incrementAndGet(), "Senhor dos Anéis: As Duas Torres ", "J.R.R. Tolkien", "HarperCollins", 464, 1, 0, 0));
         livros.add(new LivroEntity(COUNTER.incrementAndGet(), "Fundação", "Isaac Asimov", "Aleph", 320, 0, 0, 0));
         livros.add(new LivroEntity(COUNTER.incrementAndGet(), "Bruxa Natural", "Arin Murphy-Hiscock", "Darkside", 256, 1, 0, 0));

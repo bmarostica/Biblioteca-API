@@ -36,7 +36,7 @@ public class ContaClienteCreateDTO {
 
     @NotNull
     @ApiModelProperty(value = "Livro do Cliente")
-    private LivroEntity livro;
+    private LivroDTO livro;
 
     @NotNull
     @ApiModelProperty(value = "Status do Cliente -> 1 para OK, 2 para CANCELADO e 3 para BLOQUEADO")
