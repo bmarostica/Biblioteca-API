@@ -1,5 +1,7 @@
 package com.dbc.biblioteca.entity;
 
+import com.fasterxml.jackson.annotation.JsonValue;
+
 import java.util.Arrays;
 
 public enum StatusCliente {
@@ -22,5 +24,9 @@ public enum StatusCliente {
                 .filter(statusCliente -> statusCliente.getDescricao().equals(sl))
                 .findFirst()
                 .get();
+    }
+    @JsonValue
+    public int toValue(){
+        return ordinal();
     }
 }

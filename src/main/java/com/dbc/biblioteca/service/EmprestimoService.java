@@ -2,6 +2,7 @@ package com.dbc.biblioteca.service;
 
 import com.dbc.biblioteca.dto.EmprestimoCreateDTO;
 import com.dbc.biblioteca.dto.EmprestimoDTO;
+import com.dbc.biblioteca.entity.ContaClienteEntity;
 import com.dbc.biblioteca.entity.EmprestimoEntity;
 import com.dbc.biblioteca.entity.LivroEntity;
 import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
@@ -25,6 +26,7 @@ public class EmprestimoService {
     private final FuncionarioService funcionarioService;
     private final LivroService livroService;
     private final LivroRepository livroRepository;
+    private final ContaClienteRepository contaClienteRepository;
 
     public List<EmprestimoDTO> list() {
         return emprestimoRepository.list().stream()
@@ -54,8 +56,11 @@ public class EmprestimoService {
 
     public EmprestimoDTO create(EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
         LivroEntity livro = livroRepository.getById(emprestimoCreateDTO.getIdLivroEmprestimo());
+        ContaClienteEntity cliente = contaClienteRepository.getById(emprestimoCreateDTO.getIdClienteEmprestimo());
         if (livro.getStatusLivro() == 1) {
-           throw new RegraDeNegocioException("Livro já está emprestado.");
+            throw new RegraDeNegocioException("Livro já está emprestado.");
+        } else if (cliente.getStatus() == 1 || cliente.getStatus() == 2) {
+            throw new RegraDeNegocioException("Cliente bloqueado ou cancelado.");
         } else {
             livro.setStatusLivro(1);
         }

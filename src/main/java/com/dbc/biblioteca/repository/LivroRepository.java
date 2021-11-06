@@ -70,26 +70,5 @@ public class LivroRepository {
 
         livros.remove(livroRecuperado);
     }
-//    public LivroEntity statusIndisponivel(Integer idLivro) throws RegraDeNegocioException {
-//        LivroEntity livroRecuperado = livros.stream()
-//                .filter(livro -> livro.getIdLivro().equals(idLivro))
-//                .findFirst()
-//                .get();
-//        if (livroRecuperado.getStatusLivro() == 1) {
-//            new RegraDeNegocioException("Livro já está emprestado.");
-//        } else {
-//            livroRecuperado.setStatusLivro(1);
-//        }
-//        return livroRecuperado;
-//    }
-//
-//    public void statusDisponivel(Integer idLivro) {
-//        LivroEntity livroRecuperado = livros.stream()
-//                .filter(livro -> livro.getIdLivro().equals(idLivro))
-//                .findFirst()
-//                .get();
-//        livroRecuperado.setStatusLivro(0);
-//    }
-
 
 }

@@ -14,7 +14,7 @@ public class ContaClienteEntity {
     private String nome;
     private String telefone;
     private String email;
-    private StatusCliente status;
+    private Integer status;
     private Integer pontosFidelidade;
 
 }

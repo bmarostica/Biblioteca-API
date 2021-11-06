@@ -19,9 +19,9 @@ public class ContaClienteRepository  {
     private static LivroDTO livro1 = new LivroDTO();
 
     public ContaClienteRepository() {
-        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 1, "Marcelo", "998855220", "marcelo@email.com", StatusCliente.OK, 25));
-        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 0, "Bianca", "805552650", "bianca@email.com", StatusCliente.OK, 40));
-        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 1, "David", "923312320", "david@email.com", StatusCliente.BLOQUEADO, 0));
+        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 1, "Marcelo", "998855220", "marcelo@email.com", 1, 25));
+        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 0, "Bianca", "805552650", "bianca@email.com", 0, 50));
+        listaClientesEntities.add(new ContaClienteEntity(COUNTER.incrementAndGet(), 1, "David", "923312320", "david@email.com", 0, 50));
     }
 
     public List<ContaClienteEntity> list() {

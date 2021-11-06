@@ -35,8 +35,10 @@ public class ContaClienteCreateDTO {
     private String email;
 
     @NotNull
-    @ApiModelProperty(value = "Status do Cliente -> 1 para OK, 2 para CANCELADO e 3 para BLOQUEADO")
-    private StatusCliente status;
+    @ApiModelProperty(value = "Status do Cliente -> 0 para OK, 1 para CANCELADO e 2 para BLOQUEADO")
+    @Min(0)
+    @Max(2)
+    private Integer status;
 
     @NotNull
     @ApiModelProperty(value = "Quantidade de pontos fidelidade do cliente")
