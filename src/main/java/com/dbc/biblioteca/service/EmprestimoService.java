@@ -23,6 +23,7 @@ public class EmprestimoService {
     private final ContaClienteService contaClienteService;
     private final FuncionarioService funcionarioService;
     private final LivroService livroService;
+    private final LivroRepository livroRepository;
 
     public List<EmprestimoDTO> list() {
         return emprestimoRepository.list().stream()
@@ -46,10 +47,12 @@ public class EmprestimoService {
         dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
         dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
         dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
+
         return dto;
     }
 
     public EmprestimoDTO create(EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
+        livroRepository.statusIndisponivel(emprestimoCreateDTO.getIdLivroEmprestimo());
         EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
         EmprestimoEntity emprestimoCriado = emprestimoRepository.create(entity);
         EmprestimoDTO dto = objectMapper.convertValue(emprestimoCriado, EmprestimoDTO.class);
@@ -67,10 +70,12 @@ public class EmprestimoService {
         dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
         dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
         dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
+
         return dto;
     }
 
     public void delete(Integer id) throws RegraDeNegocioException {
+        livroRepository.statusDisponivel(emprestimoRepository.getById(id).getIdLivroEmprestimo());
         emprestimoRepository.delete(id);
     }
 
