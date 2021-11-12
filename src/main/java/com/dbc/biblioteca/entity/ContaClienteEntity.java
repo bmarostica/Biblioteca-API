@@ -1,15 +1,12 @@
 package com.dbc.biblioteca.entity;
 
 import com.dbc.biblioteca.dto.LivroDTO;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+@Getter
+@Setter
 @Entity(name = "cliente")
 public class ContaClienteEntity {
     @Id

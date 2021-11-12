@@ -27,7 +27,7 @@ public class EmprestimoService {
     private final ContaClienteRepository contaClienteRepository;
 
     public List<EmprestimoDTO> list() {
-        return emprestimoRepository.list().stream()
+        return emprestimoRepository.findAll().stream()
                 .map(emprestimo -> {
                     EmprestimoDTO dto = objectMapper.convertValue(emprestimo, EmprestimoDTO.class);
                     try {
@@ -63,18 +63,23 @@ public class EmprestimoService {
             livro.setStatusLivro(StatusLivro.INDISPONIVEL);
         }
         EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
-        EmprestimoEntity emprestimoCriado = emprestimoRepository.create(entity);
+        EmprestimoEntity emprestimoCriado = emprestimoRepository.save(entity);
         EmprestimoDTO dto = objectMapper.convertValue(emprestimoCriado, EmprestimoDTO.class);
         dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
         dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
         dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
+
+        if (cliente.getTipoCliente() == TipoCliente.PREMIUM) {
+            cliente.setPontosFidelidade(10);
+        }
 
         return dto;
     }
 
     public EmprestimoDTO update(Integer id, EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
         EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
-        EmprestimoEntity atualizado = emprestimoRepository.update(id, entity);
+        getById(id);
+        EmprestimoEntity atualizado = emprestimoRepository.save(entity);
         EmprestimoDTO dto = objectMapper.convertValue(atualizado, EmprestimoDTO.class);
         dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
         dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
@@ -86,7 +91,7 @@ public class EmprestimoService {
     public void delete(Integer id) throws RegraDeNegocioException {
         LivroEntity livro = livroRepository.getById(emprestimoRepository.getById(id).getIdLivroEmprestimo());
         livro.setStatusLivro(StatusLivro.DISPONIVEL);
-        emprestimoRepository.delete(id);
+        //emprestimoRepository.delete(livro);
     }
 
 }
