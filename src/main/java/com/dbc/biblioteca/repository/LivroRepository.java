@@ -12,10 +12,10 @@ import java.util.List;
 public interface LivroRepository extends JpaRepository<LivroEntity, Integer> {
 
     @Query(value = "select * " +
-            "from LIVRO" +
-            "where upper(titulo) like upper(:titulo)"
+            "from LIVRO " +
+            "where upper(titulo) like upper(:titulo) "
             ,nativeQuery = true
     )
-    List<LivroDTO> findByName(String titulo);
+    List<LivroEntity> findByName(String titulo);
 
 }
