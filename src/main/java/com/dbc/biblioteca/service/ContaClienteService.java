@@ -17,36 +17,41 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ContaClienteService  implements PlanosDeAssinatura {
     private final ContaClienteRepository contaClienteRepository;
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     public List<ContaClienteDTO> list() {
-        return contaClienteRepository.list().stream()
+        return contaClienteRepository.findAll().stream()
                 .map(conta -> objectMapper.convertValue(conta, ContaClienteDTO.class))
                 .collect(Collectors.toList());
     }
 
     public ContaClienteDTO getById(Integer id) throws RegraDeNegocioException {
-        ContaClienteEntity entity = contaClienteRepository.getById(id);
+        ContaClienteEntity entity = contaClienteRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Conta Cliente não encontrada"));
         ContaClienteDTO dto = objectMapper.convertValue(entity, ContaClienteDTO.class);
         return dto;
     }
 
     public ContaClienteDTO create(ContaClienteCreateDTO contaClienteCreateDTO) throws RegraDeNegocioException {
         ContaClienteEntity contaClienteEntity = objectMapper.convertValue(contaClienteCreateDTO, ContaClienteEntity.class);
-        ContaClienteEntity contaCriada = contaClienteRepository.create(contaClienteEntity);
+        ContaClienteEntity contaCriada = contaClienteRepository.save(contaClienteEntity);
         ContaClienteDTO contaClienteDTO = objectMapper.convertValue(contaCriada, ContaClienteDTO.class);
         return contaClienteDTO;
     }
 
     public ContaClienteDTO update(Integer id, ContaClienteCreateDTO contaClienteCreateDTO) throws RegraDeNegocioException {
+        getById(id);
         ContaClienteEntity entity = objectMapper.convertValue(contaClienteCreateDTO, ContaClienteEntity.class);
-        ContaClienteEntity update = contaClienteRepository.update(id, entity);
+        entity.setIdCliente(id);
+        ContaClienteEntity update = contaClienteRepository.save(entity);
         ContaClienteDTO dto = objectMapper.convertValue(update, ContaClienteDTO.class);
         return dto;
     }
 
     public void delete(Integer id) throws RegraDeNegocioException {
-        contaClienteRepository.delete(id);
+        ContaClienteDTO cliente = getById(id);
+        ContaClienteEntity clienteEntity = objectMapper.convertValue(cliente,ContaClienteEntity.class);
+        contaClienteRepository.delete(clienteEntity);
     }
 
 

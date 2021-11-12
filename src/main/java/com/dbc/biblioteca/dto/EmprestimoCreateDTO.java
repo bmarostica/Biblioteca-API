@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmprestimoCreateDTO {
-
     @NotNull
     @ApiModelProperty(value = "ID do cliente")
     private Integer idClienteEmprestimo;
