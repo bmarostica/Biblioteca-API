@@ -33,7 +33,7 @@ public class EmprestimoService {
                     try {
                         dto.setContaClienteDTO(contaClienteService.getById(emprestimo.getIdClienteEmprestimo()));
                         dto.setFuncionarioDTO(funcionarioService.getById(emprestimo.getIdFuncionarioEmprestimo()));
-                        dto.setLivroDTO(livroService.getById(emprestimo.getIdLivroEmprestimo()));
+//                        dto.setLivroDTO(livroService.getById(emprestimo.getIdLivroEmprestimo()));
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
                     }
@@ -47,7 +47,7 @@ public class EmprestimoService {
         EmprestimoDTO dto = objectMapper.convertValue(entity, EmprestimoDTO.class);
         dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
         dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
-        dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
+//        dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
 
         return dto;
     }
@@ -67,7 +67,7 @@ public class EmprestimoService {
         EmprestimoDTO dto = objectMapper.convertValue(emprestimoCriado, EmprestimoDTO.class);
         dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
         dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
-        dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
+//        dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
 
         if (cliente.getTipoCliente() == TipoCliente.PREMIUM) {
             cliente.setPontosFidelidade(10);
@@ -83,7 +83,7 @@ public class EmprestimoService {
         EmprestimoDTO dto = objectMapper.convertValue(atualizado, EmprestimoDTO.class);
         dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
         dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
-        dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
+//        dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
 
         return dto;
     }

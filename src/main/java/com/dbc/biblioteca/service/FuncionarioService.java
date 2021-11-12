@@ -18,28 +18,36 @@ public class FuncionarioService {
     private final FuncionarioRepository funcionarioRepository;
     private final ObjectMapper objectMapper;
 
+    private FuncionarioEntity findById(Integer id) throws RegraDeNegocioException {
+        FuncionarioEntity entity = funcionarioRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Funcionario não encontrado."));
+        return entity;
+    }
+
     public FuncionarioDTO create(FuncionarioCreateDTO funcionarioCreateDTO) throws RegraDeNegocioException{
         FuncionarioEntity entity = objectMapper.convertValue(funcionarioCreateDTO, FuncionarioEntity.class);
-        FuncionarioEntity criado = funcionarioRepository.create(entity);
+        FuncionarioEntity criado = funcionarioRepository.save(entity);
         FuncionarioDTO dto = objectMapper.convertValue(criado, FuncionarioDTO.class);
         return dto;
     }
 
     public List<FuncionarioDTO> list() {
-        return funcionarioRepository.list().stream()
+        return funcionarioRepository.findAll().stream()
                 .map(funcionarioEntity -> objectMapper.convertValue(funcionarioEntity, FuncionarioDTO.class))
                 .collect(Collectors.toList());
     }
 
     public FuncionarioDTO update(Integer id, FuncionarioCreateDTO funcionarioCreateDTO) throws RegraDeNegocioException {
         FuncionarioEntity entity = objectMapper.convertValue(funcionarioCreateDTO, FuncionarioEntity.class);
-        FuncionarioEntity atualizado = funcionarioRepository.update(id, entity);
+        entity.setIdFuncionario(id);
+        FuncionarioEntity atualizado = funcionarioRepository.save(entity);
         FuncionarioDTO dto = objectMapper.convertValue(atualizado, FuncionarioDTO.class);
         return dto;
     }
 
     public void delete(Integer id) throws RegraDeNegocioException {
-        funcionarioRepository.delete(id);
+        FuncionarioEntity entity = findById(id);
+        funcionarioRepository.delete(entity);
     }
 
     public FuncionarioDTO getById(Integer id) throws RegraDeNegocioException {
