@@ -21,7 +21,7 @@ public class LivroService {
 
     public LivroDTO create(LivroCreateDTO livroCreateDTO) {
         LivroEntity livroEntity = objectMapper.convertValue(livroCreateDTO, LivroEntity.class);
-        LivroEntity livroCriado = livroRepository.create(livroEntity);
+        LivroEntity livroCriado = livroRepository.save(livroEntity);
 
         LivroDTO livroDTO = objectMapper.convertValue(livroCriado, LivroDTO.class);
 
@@ -29,28 +29,34 @@ public class LivroService {
     }
 
     public List<LivroDTO> list() {
-        return livroRepository.list().stream()
+        return livroRepository.findAll().stream()
                 .map(livro -> objectMapper.convertValue(livro, LivroDTO.class))
                 .collect(Collectors.toList());
     }
 
-    public List<LivroDTO> listByName(String titulo) {
-        return livroRepository.listByName(titulo).stream()
+    public List<LivroDTO> findByName(String titulo) {
+        return livroRepository.findByName(titulo).stream()
                 .map(livro -> objectMapper.convertValue(livro, LivroDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    public LivroEntity findById(Integer id) throws RegraDeNegocioException {
+        LivroEntity livroEntity = livroRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Livro não localizado"));
+        return livroEntity;
     }
 
     public LivroDTO getById(Integer id) throws RegraDeNegocioException {
-        LivroEntity livroEntity = livroRepository.getById(id);
-
+        LivroEntity livroEntity = findById(id);
         LivroDTO livroDTO = objectMapper.convertValue(livroEntity, LivroDTO.class);
-
         return livroDTO;
     }
 
     public LivroDTO update(Integer id, LivroCreateDTO livroCreateDTO) throws RegraDeNegocioException {
-        LivroEntity livroEntity = objectMapper.convertValue(livroCreateDTO, LivroEntity.class);
-        LivroEntity livroAtualizado = livroRepository.update(id, livroEntity);
+        getById(id);
+        LivroEntity livro = objectMapper.convertValue(livroCreateDTO, LivroEntity.class);
+        livro.setIdLivro(id);
+        LivroEntity livroAtualizado = livroRepository.save(livro);
 
         LivroDTO livroDTO = objectMapper.convertValue(livroAtualizado, LivroDTO.class);
 
@@ -58,9 +64,9 @@ public class LivroService {
     }
 
     public void delete(Integer id) throws RegraDeNegocioException {
-        livroRepository.delete(id);
+        LivroEntity livroEntity = findById(id);
+        livroRepository.delete(livroEntity);
     }
-
 
 
 }

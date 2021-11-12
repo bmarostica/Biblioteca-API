@@ -56,8 +56,8 @@ public class LivroController {
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
     })
     @GetMapping("/byname")
-    public List<LivroDTO> listByName(String titulo){
-        return livroService.listByName(titulo);
+    public List<LivroDTO> findByName(@RequestParam("titulo") String titulo){
+        return livroService.findByName("%" + titulo + "%");
     }
 
     @ApiOperation("Retorna um livro de acordo com o ID informado")

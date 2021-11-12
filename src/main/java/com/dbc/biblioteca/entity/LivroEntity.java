@@ -1,19 +1,42 @@
 package com.dbc.biblioteca.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+
+@Getter
+@Setter
+@Entity(name = "LIVRO")
 public class LivroEntity {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_LIVRO")
     private Integer idLivro;
+
+    @Column(name = "TITULO")
     private String titulo;
+
+    @Column(name = "AUTOR")
     private String autor;
+
+    @Column(name = "EDITORA")
     private String editora;
+
+    @Column(name = "NR_PAGINAS")
     private Integer numeroDePaginas;
-    private Integer formato;
-    private Integer idioma;
-    private Integer statusLivro;
+
+    @Enumerated
+    @Column(name = "FORMATO")
+    private Formato formato;
+
+    @Enumerated
+    @Column(name = "IDIOMA")
+    private Idioma idioma;
+
+    @Enumerated
+    @Column(name = "STATUS_LIVRO")
+    private StatusLivro statusLivro;
 }

@@ -1,5 +1,8 @@
 package com.dbc.biblioteca.dto;
 
+import com.dbc.biblioteca.entity.Formato;
+import com.dbc.biblioteca.entity.Idioma;
+import com.dbc.biblioteca.entity.StatusLivro;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,14 +33,14 @@ public class LivroCreateDTO {
     private Integer numeroDePaginas;
 
     @NotNull
-    @ApiModelProperty(value = "Formato do livro -> 0 para brochura e 1 para capa dura")
-    private Integer formato;
+    @ApiModelProperty(value = "Formato do livro -> Brochura ou Capa dura")
+    private Formato formato;
 
     @NotNull
-    @ApiModelProperty(value = "Idioma do livro -> 0 para Português, 1 para Inglês e 2 para Espanhol")
-    private Integer idioma;
+    @ApiModelProperty(value = "Idioma do livro -> Português, Inglês ou Espanhol")
+    private Idioma idioma;
 
     @NotNull
-    @ApiModelProperty(value = "Status do livro -> 0 para disponível e 1 para indisponível")
-    private Integer statusLivro;
+    @ApiModelProperty(value = "Status do livro -> Disponível ou indisponível")
+    private StatusLivro statusLivro;
 }

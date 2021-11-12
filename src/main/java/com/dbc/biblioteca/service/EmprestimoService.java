@@ -2,10 +2,7 @@ package com.dbc.biblioteca.service;
 
 import com.dbc.biblioteca.dto.EmprestimoCreateDTO;
 import com.dbc.biblioteca.dto.EmprestimoDTO;
-import com.dbc.biblioteca.entity.ContaClienteEntity;
-import com.dbc.biblioteca.entity.EmprestimoEntity;
-import com.dbc.biblioteca.entity.LivroEntity;
-import com.dbc.biblioteca.entity.StatusCliente;
+import com.dbc.biblioteca.entity.*;
 import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
 import com.dbc.biblioteca.repository.ContaClienteRepository;
 import com.dbc.biblioteca.repository.EmprestimoRepository;
@@ -58,12 +55,12 @@ public class EmprestimoService {
     public EmprestimoDTO create(EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
         LivroEntity livro = livroRepository.getById(emprestimoCreateDTO.getIdLivroEmprestimo());
         ContaClienteEntity cliente = contaClienteRepository.getById(emprestimoCreateDTO.getIdClienteEmprestimo());
-        if (livro.getStatusLivro() == 1) {
+        if (livro.getStatusLivro() == StatusLivro.INDISPONIVEL) {
             throw new RegraDeNegocioException("Livro já está emprestado.");
         } else if (cliente.getStatus() == StatusCliente.BLOQUEADO || cliente.getStatus() == StatusCliente.CANCELADO) {
             throw new RegraDeNegocioException("Cliente bloqueado ou cancelado.");
         } else {
-            livro.setStatusLivro(1);
+            livro.setStatusLivro(StatusLivro.INDISPONIVEL);
         }
         EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
         EmprestimoEntity emprestimoCriado = emprestimoRepository.create(entity);
@@ -88,8 +85,8 @@ public class EmprestimoService {
 
     public void delete(Integer id) throws RegraDeNegocioException {
         LivroEntity livro = livroRepository.getById(emprestimoRepository.getById(id).getIdLivroEmprestimo());
-//        livro.setStatusLivro(0);
-       emprestimoRepository.delete(id);
+        livro.setStatusLivro(StatusLivro.DISPONIVEL);
+        emprestimoRepository.delete(id);
     }
 
 }

@@ -25,7 +25,6 @@ public enum StatusLivro {
                 .get();
     }
 
-    @JsonValue
     public int toValue(){
         return ordinal();
     }

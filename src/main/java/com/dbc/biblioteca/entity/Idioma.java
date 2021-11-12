@@ -26,7 +26,6 @@ public enum Idioma {
                 .get();
     }
 
-    @JsonValue
     public int toValue(){
         return ordinal();
     }
