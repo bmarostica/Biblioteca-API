@@ -26,7 +26,6 @@ public enum TipoCliente {
                 .get();
     }
 
-    @JsonValue
     public int toValue(){
         return ordinal();
     }

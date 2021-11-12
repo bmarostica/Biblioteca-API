@@ -27,7 +27,7 @@ public class ContaClienteService  implements PlanosDeAssinatura {
 
     public ContaClienteDTO getById(Integer id) throws RegraDeNegocioException {
         ContaClienteEntity entity = contaClienteRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Conta Cliente não encontrada"));
+                .orElseThrow(() -> new RegraDeNegocioException("Conta Cliente não encontrado"));
         ContaClienteDTO dto = objectMapper.convertValue(entity, ContaClienteDTO.class);
         return dto;
     }

@@ -57,13 +57,13 @@ public class EmprestimoService {
     public EmprestimoDTO create(EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
         LivroEntity livro = livroRepository.getById(emprestimoCreateDTO.getIdLivroEmprestimo());
         ContaClienteEntity cliente = contaClienteRepository.getById(emprestimoCreateDTO.getIdClienteEmprestimo());
-        if (livro.getStatusLivro() == 1) {
-            throw new RegraDeNegocioException("Livro já está emprestado.");
-        } else if (cliente.getStatus() == 1 || cliente.getStatus() == 2) {
-            throw new RegraDeNegocioException("Cliente bloqueado ou cancelado.");
-        } else {
-            livro.setStatusLivro(1);
-        }
+//        if (livro.getStatusLivro() == 1) {
+//            throw new RegraDeNegocioException("Livro já está emprestado.");
+////        } else if (cliente.getStatus() == 1 || cliente.getStatus() == 2) {
+////            throw new RegraDeNegocioException("Cliente bloqueado ou cancelado.");
+//        } else {
+//            livro.setStatusLivro(1);
+//        }
         EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
         EmprestimoEntity emprestimoCriado = emprestimoRepository.create(entity);
         EmprestimoDTO dto = objectMapper.convertValue(emprestimoCriado, EmprestimoDTO.class);
@@ -87,8 +87,8 @@ public class EmprestimoService {
 
     public void delete(Integer id) throws RegraDeNegocioException {
         LivroEntity livro = livroRepository.getById(emprestimoRepository.getById(id).getIdLivroEmprestimo());
-        livro.setStatusLivro(0);
-        emprestimoRepository.delete(id);
+//        livro.setStatusLivro(0);
+       emprestimoRepository.delete(id);
     }
 
 }

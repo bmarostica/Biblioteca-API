@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import java.util.Arrays;
 
 public enum StatusCliente {
-    OK(1),
+    ATIVO(1),
     BLOQUEADO(2),
     CANCELADO(3);
 
@@ -25,7 +25,7 @@ public enum StatusCliente {
                 .findFirst()
                 .get();
     }
-    @JsonValue
+
     public int toValue(){
         return ordinal();
     }

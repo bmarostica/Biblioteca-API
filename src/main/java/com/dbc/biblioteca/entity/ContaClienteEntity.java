@@ -18,7 +18,8 @@ public class ContaClienteEntity {
     private Integer idCliente;
 
     @Column(name = "tipo_cliente")
-    private Integer tipoCliente;
+    @Enumerated
+    private TipoCliente tipoCliente;
 
     @Column(name = "nome")
     private String nome;
@@ -29,8 +30,9 @@ public class ContaClienteEntity {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "status")
-    private Integer status;
+    @Column(name = "status_cliente")
+    @Enumerated
+    private StatusCliente status;
 
     @Column(name = "pontos_fidelidade")
     private Integer pontosFidelidade;

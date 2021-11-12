@@ -2,6 +2,7 @@ package com.dbc.biblioteca.dto;
 
 import com.dbc.biblioteca.entity.LivroEntity;
 import com.dbc.biblioteca.entity.StatusCliente;
+import com.dbc.biblioteca.entity.TipoCliente;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,10 +16,8 @@ import javax.validation.constraints.*;
 public class ContaClienteCreateDTO {
 
     @NotNull
-    @ApiModelProperty(value = "Tipo do Cliente -> 0 para comum e 1 para premium")
-    @Min(0)
-    @Max(1)
-    private Integer tipoCliente;
+    @ApiModelProperty(value = "Tipo do Cliente -> comum e premium")
+    private TipoCliente tipoCliente;
 
     @NotEmpty
     @NotNull
@@ -35,10 +34,8 @@ public class ContaClienteCreateDTO {
     private String email;
 
     @NotNull
-    @ApiModelProperty(value = "Status do Cliente -> 0 para OK, 1 para CANCELADO e 2 para BLOQUEADO")
-    @Min(0)
-    @Max(2)
-    private Integer status;
+    @ApiModelProperty(value = "Status do Cliente -> ATIVO, CANCELADO e BLOQUEADO")
+    private StatusCliente status;
 
     @NotNull
     @ApiModelProperty(value = "Quantidade de pontos fidelidade do cliente")
