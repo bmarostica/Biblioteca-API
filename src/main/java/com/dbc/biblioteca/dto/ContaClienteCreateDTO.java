@@ -3,6 +3,7 @@ package com.dbc.biblioteca.dto;
 import com.dbc.biblioteca.entity.LivroEntity;
 import com.dbc.biblioteca.entity.StatusCliente;
 import com.dbc.biblioteca.entity.TipoCliente;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,7 +38,4 @@ public class ContaClienteCreateDTO {
     @ApiModelProperty(value = "Status do Cliente -> ATIVO, CANCELADO e BLOQUEADO")
     private StatusCliente status;
 
-    @NotNull
-    @ApiModelProperty(value = "Quantidade de pontos fidelidade do cliente")
-    private Integer pontosFidelidade;
 }

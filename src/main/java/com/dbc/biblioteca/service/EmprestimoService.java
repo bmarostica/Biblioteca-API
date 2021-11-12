@@ -68,17 +68,14 @@ public class EmprestimoService {
         dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
         dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
 //        dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
-
-        if (cliente.getTipoCliente() == TipoCliente.PREMIUM) {
-            cliente.setPontosFidelidade(10);
-        }
+        cliente.setPontosFidelidade(cliente.getPontosFidelidade() + 10);
 
         return dto;
     }
 
     public EmprestimoDTO update(Integer id, EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
-        EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
         getById(id);
+        EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
         EmprestimoEntity atualizado = emprestimoRepository.save(entity);
         EmprestimoDTO dto = objectMapper.convertValue(atualizado, EmprestimoDTO.class);
         dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));

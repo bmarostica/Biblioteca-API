@@ -34,6 +34,7 @@ public class ContaClienteService  implements PlanosDeAssinatura {
 
     public ContaClienteDTO create(ContaClienteCreateDTO contaClienteCreateDTO) throws RegraDeNegocioException {
         ContaClienteEntity contaClienteEntity = objectMapper.convertValue(contaClienteCreateDTO, ContaClienteEntity.class);
+        contaClienteEntity.setPontosFidelidade(0);
         ContaClienteEntity contaCriada = contaClienteRepository.save(contaClienteEntity);
         ContaClienteDTO contaClienteDTO = objectMapper.convertValue(contaCriada, ContaClienteDTO.class);
         return contaClienteDTO;
