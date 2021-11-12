@@ -1,6 +1,7 @@
 package com.dbc.biblioteca.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -39,4 +40,8 @@ public class LivroEntity {
     @Enumerated
     @Column(name = "STATUS_LIVRO")
     private StatusLivro statusLivro;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "livroEntity", fetch = FetchType.LAZY)
+    private EmprestimoEntity emprestimoEntity;
 }

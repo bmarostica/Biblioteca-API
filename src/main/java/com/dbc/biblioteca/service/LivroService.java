@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,7 +40,6 @@ public class LivroService {
                 .map(livro -> objectMapper.convertValue(livro, LivroDTO.class))
                 .collect(Collectors.toList());
     }
-
     public LivroEntity findById(Integer id) throws RegraDeNegocioException {
         LivroEntity livroEntity = livroRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Livro não localizado"));

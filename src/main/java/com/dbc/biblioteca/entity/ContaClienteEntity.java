@@ -1,6 +1,7 @@
 package com.dbc.biblioteca.entity;
 
 import com.dbc.biblioteca.dto.LivroDTO;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -33,5 +34,9 @@ public class ContaClienteEntity {
 
     @Column(name = "pontos_fidelidade")
     private Integer pontosFidelidade;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "contaClienteEntity", fetch = FetchType.LAZY)
+    private EmprestimoEntity emprestimoEntity;
 
 }

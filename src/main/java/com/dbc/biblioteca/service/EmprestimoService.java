@@ -25,15 +25,22 @@ public class EmprestimoService {
     private final LivroService livroService;
     private final LivroRepository livroRepository;
     private final ContaClienteRepository contaClienteRepository;
+    private final FuncionarioRepository funcionarioRepository;
+
+    private EmprestimoEntity findById(Integer id) throws RegraDeNegocioException {
+        EmprestimoEntity entity = emprestimoRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Emprestimo não encontrado."));
+        return entity;
+    }
 
     public List<EmprestimoDTO> list() {
         return emprestimoRepository.findAll().stream()
                 .map(emprestimo -> {
                     EmprestimoDTO dto = objectMapper.convertValue(emprestimo, EmprestimoDTO.class);
                     try {
-                        dto.setContaClienteDTO(contaClienteService.getById(emprestimo.getIdClienteEmprestimo()));
-                        dto.setFuncionarioDTO(funcionarioService.getById(emprestimo.getIdFuncionarioEmprestimo()));
-//                        dto.setLivroDTO(livroService.getById(emprestimo.getIdLivroEmprestimo()));
+                        dto.setContaClienteDTO(contaClienteService.getById(emprestimo.getContaClienteEntity().getIdCliente()));
+                        dto.setFuncionarioDTO(funcionarioService.getById(emprestimo.getFuncionarioEntity().getIdFuncionario()));
+                        dto.setLivroDTO(livroService.getById(emprestimo.getLivroEntity().getIdLivro()));
                     } catch (RegraDeNegocioException e) {
                         e.printStackTrace();
                     }
@@ -43,11 +50,12 @@ public class EmprestimoService {
     }
 
     public EmprestimoDTO getById(Integer id) throws RegraDeNegocioException {
+        findById(id);
         EmprestimoEntity entity = emprestimoRepository.getById(id);
         EmprestimoDTO dto = objectMapper.convertValue(entity, EmprestimoDTO.class);
-        dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
-        dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
-//        dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
+        dto.setContaClienteDTO(contaClienteService.getById(entity.getContaClienteEntity().getIdCliente()));
+        dto.setFuncionarioDTO(funcionarioService.getById(entity.getFuncionarioEntity().getIdFuncionario()));
+        dto.setLivroDTO(livroService.getById(entity.getLivroEntity().getIdLivro()));
 
         return dto;
     }
@@ -63,32 +71,36 @@ public class EmprestimoService {
             livro.setStatusLivro(StatusLivro.INDISPONIVEL);
         }
         EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
+        entity.setLivroEntity(livroRepository.getById(emprestimoCreateDTO.getIdLivroEmprestimo()));
+        entity.setFuncionarioEntity(funcionarioRepository.getById(emprestimoCreateDTO.getIdFuncionarioEmprestimo()));
+        entity.setContaClienteEntity(contaClienteRepository.getById(emprestimoCreateDTO.getIdClienteEmprestimo()));
         EmprestimoEntity emprestimoCriado = emprestimoRepository.save(entity);
         EmprestimoDTO dto = objectMapper.convertValue(emprestimoCriado, EmprestimoDTO.class);
-        dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
-        dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
-//        dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
+        dto.setLivroDTO(livroService.getById(entity.getLivroEntity().getIdLivro()));
+        dto.setContaClienteDTO(contaClienteService.getById(entity.getContaClienteEntity().getIdCliente()));
+        dto.setFuncionarioDTO(funcionarioService.getById(entity.getFuncionarioEntity().getIdFuncionario()));
         cliente.setPontosFidelidade(cliente.getPontosFidelidade() + 10);
 
         return dto;
     }
 
     public EmprestimoDTO update(Integer id, EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
-        getById(id);
+        findById(id);
         EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
         EmprestimoEntity atualizado = emprestimoRepository.save(entity);
         EmprestimoDTO dto = objectMapper.convertValue(atualizado, EmprestimoDTO.class);
-        dto.setContaClienteDTO(contaClienteService.getById(entity.getIdClienteEmprestimo()));
-        dto.setFuncionarioDTO(funcionarioService.getById(entity.getIdFuncionarioEmprestimo()));
-//        dto.setLivroDTO(livroService.getById(entity.getIdLivroEmprestimo()));
+        dto.setContaClienteDTO(contaClienteService.getById(entity.getContaClienteEntity().getIdCliente()));
+        dto.setFuncionarioDTO(funcionarioService.getById(entity.getFuncionarioEntity().getIdFuncionario()));
+        dto.setLivroDTO(livroService.getById(entity.getLivroEntity().getIdLivro()));
 
         return dto;
     }
 
     public void delete(Integer id) throws RegraDeNegocioException {
-        LivroEntity livro = livroRepository.getById(emprestimoRepository.getById(id).getIdLivroEmprestimo());
+        EmprestimoEntity entity = findById(id);
+        LivroEntity livro = livroRepository.getById(emprestimoRepository.getById(id).getLivroEntity().getIdLivro());
         livro.setStatusLivro(StatusLivro.DISPONIVEL);
-        //emprestimoRepository.delete(livro);
+        emprestimoRepository.delete(entity);
     }
 
 }

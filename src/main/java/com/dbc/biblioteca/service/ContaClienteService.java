@@ -19,6 +19,12 @@ public class ContaClienteService  implements PlanosDeAssinatura {
     private final ContaClienteRepository contaClienteRepository;
     private final ObjectMapper objectMapper;
 
+    private ContaClienteEntity findById(Integer id) throws RegraDeNegocioException {
+        ContaClienteEntity entity = contaClienteRepository.findById(id)
+                .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado."));
+        return entity;
+    }
+
     public List<ContaClienteDTO> list() {
         return contaClienteRepository.findAll().stream()
                 .map(conta -> objectMapper.convertValue(conta, ContaClienteDTO.class))
@@ -26,8 +32,7 @@ public class ContaClienteService  implements PlanosDeAssinatura {
     }
 
     public ContaClienteDTO getById(Integer id) throws RegraDeNegocioException {
-        ContaClienteEntity entity = contaClienteRepository.findById(id)
-                .orElseThrow(() -> new RegraDeNegocioException("Conta Cliente não encontrado"));
+        ContaClienteEntity entity = findById(id);
         ContaClienteDTO dto = objectMapper.convertValue(entity, ContaClienteDTO.class);
         return dto;
     }

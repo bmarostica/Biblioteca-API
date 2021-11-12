@@ -38,6 +38,7 @@ public class FuncionarioService {
     }
 
     public FuncionarioDTO update(Integer id, FuncionarioCreateDTO funcionarioCreateDTO) throws RegraDeNegocioException {
+        findById(id);
         FuncionarioEntity entity = objectMapper.convertValue(funcionarioCreateDTO, FuncionarioEntity.class);
         entity.setIdFuncionario(id);
         FuncionarioEntity atualizado = funcionarioRepository.save(entity);
@@ -51,7 +52,7 @@ public class FuncionarioService {
     }
 
     public FuncionarioDTO getById(Integer id) throws RegraDeNegocioException {
-        FuncionarioEntity entity = funcionarioRepository.getById(id);
+        FuncionarioEntity entity = findById(id);
         FuncionarioDTO dto = objectMapper.convertValue(entity, FuncionarioDTO.class);
         return dto;
     }

@@ -1,5 +1,6 @@
 package com.dbc.biblioteca.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,12 +14,20 @@ public class EmprestimoEntity {
     @Column(name = "id_emprestimo")
     private Integer idEmprestimo;
 
-    @Column(name = "id_cliente")
-    private Integer idClienteEmprestimo;
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_livro", referencedColumnName = "id_livro")
+    private LivroEntity livroEntity;
 
-    @Column(name = "id_livro")
-    private Integer idLivroEmprestimo;
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
+    private ContaClienteEntity contaClienteEntity;
 
-    @Column(name = "id_funcionario")
-    private Integer idFuncionarioEmprestimo;
+    @JsonIgnore
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_funcionario", referencedColumnName = "id_funcionario")
+    private FuncionarioEntity funcionarioEntity;
+
+
 }

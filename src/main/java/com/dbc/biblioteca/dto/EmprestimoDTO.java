@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class EmprestimoDTO {
     private Integer idEmprestimo;
-    private List<LivroDTO> livros;
+    private LivroDTO livroDTO;
     private FuncionarioDTO funcionarioDTO;
     private ContaClienteDTO contaClienteDTO;
 
