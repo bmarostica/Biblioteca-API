@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -42,6 +43,6 @@ public class LivroEntity {
     private StatusLivro statusLivro;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "livroEntity", fetch = FetchType.LAZY)
-    private EmprestimoEntity emprestimoEntity;
+    @OneToMany(mappedBy = "livroEntity", fetch = FetchType.LAZY)
+    private Set<EmprestimoEntity> emprestimosLivro;
 }

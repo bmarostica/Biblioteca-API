@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -24,6 +25,6 @@ public class FuncionarioEntity {
     private String email;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "funcionarioEntity", fetch = FetchType.LAZY)
-    private EmprestimoEntity emprestimoEntity;
+    @OneToMany(mappedBy = "funcionarioEntity", fetch = FetchType.LAZY)
+    private Set<EmprestimoEntity> emprestimosFuncionario;
 }

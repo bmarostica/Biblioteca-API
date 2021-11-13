@@ -2,6 +2,7 @@ package com.dbc.biblioteca.service;
 
 import com.dbc.biblioteca.dto.FuncionarioCreateDTO;
 import com.dbc.biblioteca.dto.FuncionarioDTO;
+import com.dbc.biblioteca.entity.EmprestimoEntity;
 import com.dbc.biblioteca.entity.FuncionarioEntity;
 import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
 import com.dbc.biblioteca.repository.FuncionarioRepository;

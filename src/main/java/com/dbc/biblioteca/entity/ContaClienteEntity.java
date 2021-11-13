@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -36,7 +37,7 @@ public class ContaClienteEntity {
     private Integer pontosFidelidade;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "contaClienteEntity", fetch = FetchType.LAZY)
-    private EmprestimoEntity emprestimoEntity;
+    @OneToMany(mappedBy = "contaClienteEntity", fetch = FetchType.LAZY)
+    private Set<EmprestimoEntity> emprestimosCliente;
 
 }

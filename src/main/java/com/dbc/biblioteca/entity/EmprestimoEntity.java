@@ -15,17 +15,17 @@ public class EmprestimoEntity {
     private Integer idEmprestimo;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_livro", referencedColumnName = "id_livro")
     private LivroEntity livroEntity;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente")
     private ContaClienteEntity contaClienteEntity;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_funcionario", referencedColumnName = "id_funcionario")
     private FuncionarioEntity funcionarioEntity;
 

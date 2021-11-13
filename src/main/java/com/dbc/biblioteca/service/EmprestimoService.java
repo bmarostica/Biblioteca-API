@@ -70,6 +70,8 @@ public class EmprestimoService {
         } else {
             livro.setStatusLivro(StatusLivro.INDISPONIVEL);
         }
+        cliente.setPontosFidelidade(cliente.getPontosFidelidade() + 10);
+        contaClienteRepository.save(cliente);
         EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
         entity.setLivroEntity(livroRepository.getById(emprestimoCreateDTO.getIdLivroEmprestimo()));
         entity.setFuncionarioEntity(funcionarioRepository.getById(emprestimoCreateDTO.getIdFuncionarioEmprestimo()));
@@ -79,8 +81,6 @@ public class EmprestimoService {
         dto.setLivroDTO(livroService.getById(entity.getLivroEntity().getIdLivro()));
         dto.setContaClienteDTO(contaClienteService.getById(entity.getContaClienteEntity().getIdCliente()));
         dto.setFuncionarioDTO(funcionarioService.getById(entity.getFuncionarioEntity().getIdFuncionario()));
-        cliente.setPontosFidelidade(cliente.getPontosFidelidade() + 10);
-
         return dto;
     }
 

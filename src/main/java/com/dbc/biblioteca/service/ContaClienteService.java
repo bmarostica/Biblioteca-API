@@ -4,6 +4,7 @@ import com.dbc.biblioteca.dto.ContaClienteCreateDTO;
 import com.dbc.biblioteca.dto.ContaClienteDTO;
 import com.dbc.biblioteca.entity.ContaClienteEntity;
 import com.dbc.biblioteca.entity.PlanosDeAssinatura;
+import com.dbc.biblioteca.entity.StatusCliente;
 import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
 import com.dbc.biblioteca.repository.ContaClienteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +41,7 @@ public class ContaClienteService  implements PlanosDeAssinatura {
     public ContaClienteDTO create(ContaClienteCreateDTO contaClienteCreateDTO) throws RegraDeNegocioException {
         ContaClienteEntity contaClienteEntity = objectMapper.convertValue(contaClienteCreateDTO, ContaClienteEntity.class);
         contaClienteEntity.setPontosFidelidade(0);
+        contaClienteEntity.setStatus(StatusCliente.ATIVO);
         ContaClienteEntity contaCriada = contaClienteRepository.save(contaClienteEntity);
         ContaClienteDTO contaClienteDTO = objectMapper.convertValue(contaCriada, ContaClienteDTO.class);
         return contaClienteDTO;
