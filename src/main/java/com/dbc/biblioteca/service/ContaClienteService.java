@@ -58,7 +58,7 @@ public class ContaClienteService  implements PlanosDeAssinatura {
 
     public void delete(Integer id) throws RegraDeNegocioException {
         ContaClienteDTO cliente = getById(id);
-        ContaClienteEntity clienteEntity = objectMapper.convertValue(cliente,ContaClienteEntity.class);
+        ContaClienteEntity clienteEntity = objectMapper.convertValue(cliente, ContaClienteEntity.class);
         contaClienteRepository.delete(clienteEntity);
     }
 
@@ -66,8 +66,16 @@ public class ContaClienteService  implements PlanosDeAssinatura {
     @Override
     public void cobrarMensalidade(double valor) {
         ContaClienteEntity cliente = new ContaClienteEntity();
-        if(cliente.getPontosFidelidade() > 0) {
+        if (cliente.getPontosFidelidade() > 0) {
             cliente.setPontosFidelidade((int) (cliente.getPontosFidelidade() - valor));
         }
     }
+
+    public void PremioPontoFidelidade() {
+        ContaClienteEntity cliente = new ContaClienteEntity();
+        if (cliente.getPontosFidelidade() == 1000) {
+            System.out.println("Parabéns você acaba de ganhar 2 semanas como cliente premium");
+        }
+    }
 }
+

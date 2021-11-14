@@ -85,17 +85,24 @@ public class EmprestimoService {
     }
 
     public EmprestimoDTO update(Integer id, EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
-        findById(id);
-        EmprestimoEntity entity = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
-        entity.setIdEmprestimo(id);
-        entity.setLivroEntity(livroRepository.getById(emprestimoCreateDTO.getIdLivroEmprestimo()));
-        entity.setFuncionarioEntity(funcionarioRepository.getById(emprestimoCreateDTO.getIdFuncionarioEmprestimo()));
-        entity.setContaClienteEntity(contaClienteRepository.getById(emprestimoCreateDTO.getIdClienteEmprestimo()));
-        EmprestimoEntity atualizado = emprestimoRepository.save(entity);
+        EmprestimoEntity emprestimoExistente = findById(id);
+        EmprestimoEntity emprestimoNovo = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
+        emprestimoNovo.setIdEmprestimo(id);
+        emprestimoNovo.setLivroEntity(livroRepository.getById(emprestimoCreateDTO.getIdLivroEmprestimo()));
+        emprestimoNovo.setFuncionarioEntity(funcionarioRepository.getById(emprestimoCreateDTO.getIdFuncionarioEmprestimo()));
+        emprestimoNovo.setContaClienteEntity(contaClienteRepository.getById(emprestimoCreateDTO.getIdClienteEmprestimo()));
+
+
+        //SE TROCAR O CLIENTE REMOVE O VALOR DE PONTOS DO CLIENTE ANTIGO E ADICIONAR PARA O NOVO
+        if (emprestimoExistente.getContaClienteEntity().getIdCliente() != emprestimoNovo.getContaClienteEntity().getIdCliente()) {
+            emprestimoExistente.getContaClienteEntity().setPontosFidelidade(emprestimoExistente.getContaClienteEntity().getPontosFidelidade() -10);
+            emprestimoNovo.getContaClienteEntity().setPontosFidelidade(emprestimoNovo.getContaClienteEntity().getPontosFidelidade() +10);
+        }
+        EmprestimoEntity atualizado = emprestimoRepository.save(emprestimoNovo);
         EmprestimoDTO dto = objectMapper.convertValue(atualizado, EmprestimoDTO.class);
-        dto.setContaClienteDTO(contaClienteService.getById(entity.getContaClienteEntity().getIdCliente()));
-        dto.setFuncionarioDTO(funcionarioService.getById(entity.getFuncionarioEntity().getIdFuncionario()));
-        dto.setLivroDTO(livroService.getById(entity.getLivroEntity().getIdLivro()));
+        dto.setContaClienteDTO(contaClienteService.getById(emprestimoNovo.getContaClienteEntity().getIdCliente()));
+        dto.setFuncionarioDTO(funcionarioService.getById(emprestimoNovo.getFuncionarioEntity().getIdFuncionario()));
+        dto.setLivroDTO(livroService.getById(emprestimoNovo.getLivroEntity().getIdLivro()));
 
         return dto;
     }
