@@ -29,5 +29,8 @@ public class EmprestimoEntity {
     @JoinColumn(name = "id_funcionario", referencedColumnName = "id_funcionario")
     private FuncionarioEntity funcionarioEntity;
 
+    @Column(name = "status")
+    private Boolean status;
+
 
 }

@@ -34,7 +34,7 @@ public class EmprestimoService {
     }
 
     public List<EmprestimoDTO> list() {
-        return emprestimoRepository.findAll().stream()
+        return emprestimoRepository.findByStatusTrue().stream()
                 .map(emprestimo -> {
                     EmprestimoDTO dto = objectMapper.convertValue(emprestimo, EmprestimoDTO.class);
                     try {
@@ -61,6 +61,9 @@ public class EmprestimoService {
     }
 
     public EmprestimoDTO create(EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
+        funcionarioService.findById(emprestimoCreateDTO.getIdFuncionarioEmprestimo());
+        contaClienteService.findById(emprestimoCreateDTO.getIdClienteEmprestimo());
+        livroService.findById(emprestimoCreateDTO.getIdLivroEmprestimo());
         LivroEntity livro = livroRepository.getById(emprestimoCreateDTO.getIdLivroEmprestimo());
         ContaClienteEntity cliente = contaClienteRepository.getById(emprestimoCreateDTO.getIdClienteEmprestimo());
         if (livro.getStatusLivro() == StatusLivro.INDISPONIVEL) {
@@ -76,6 +79,7 @@ public class EmprestimoService {
         entity.setLivroEntity(livroRepository.getById(emprestimoCreateDTO.getIdLivroEmprestimo()));
         entity.setFuncionarioEntity(funcionarioRepository.getById(emprestimoCreateDTO.getIdFuncionarioEmprestimo()));
         entity.setContaClienteEntity(contaClienteRepository.getById(emprestimoCreateDTO.getIdClienteEmprestimo()));
+        entity.setStatus(true);
         EmprestimoEntity emprestimoCriado = emprestimoRepository.save(entity);
         EmprestimoDTO dto = objectMapper.convertValue(emprestimoCriado, EmprestimoDTO.class);
         dto.setLivroDTO(livroService.getById(entity.getLivroEntity().getIdLivro()));
@@ -85,6 +89,9 @@ public class EmprestimoService {
     }
 
     public EmprestimoDTO update(Integer id, EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
+        funcionarioService.findById(emprestimoCreateDTO.getIdFuncionarioEmprestimo());
+        contaClienteService.findById(emprestimoCreateDTO.getIdClienteEmprestimo());
+        livroService.findById(emprestimoCreateDTO.getIdLivroEmprestimo());
         EmprestimoEntity emprestimoExistente = findById(id);
         EmprestimoEntity emprestimoNovo = objectMapper.convertValue(emprestimoCreateDTO, EmprestimoEntity.class);
         emprestimoNovo.setIdEmprestimo(id);
@@ -98,6 +105,21 @@ public class EmprestimoService {
             emprestimoExistente.getContaClienteEntity().setPontosFidelidade(emprestimoExistente.getContaClienteEntity().getPontosFidelidade() -10);
             emprestimoNovo.getContaClienteEntity().setPontosFidelidade(emprestimoNovo.getContaClienteEntity().getPontosFidelidade() +10);
         }
+
+        //SE TROCAR O LIVRO, O QUE ESTAVA EMPRESTADO PASSA A FICAR DISPONIVEL E O INSERIDO PASSA A FICAR INDISPONIVEL.
+        //VERIFICA TAMBÉM SE O LIVRO ESTÁ DISPONÍVEL E SE O CLIENTE ESTÁ ATIVO.
+        LivroEntity livro = livroRepository.getById(emprestimoNovo.getLivroEntity().getIdLivro());
+        ContaClienteEntity cliente = contaClienteRepository.getById(emprestimoNovo.getContaClienteEntity().getIdCliente());
+        if (livro.getStatusLivro() == StatusLivro.INDISPONIVEL) {
+            throw new RegraDeNegocioException("Livro já está emprestado.");
+        } else if (cliente.getStatus() == StatusCliente.BLOQUEADO || cliente.getStatus() == StatusCliente.CANCELADO) {
+            throw new RegraDeNegocioException("Cliente bloqueado ou cancelado.");
+        }
+        if (emprestimoExistente.getLivroEntity().getIdLivro() != emprestimoNovo.getLivroEntity().getIdLivro()) {
+            emprestimoExistente.getLivroEntity().setStatusLivro(StatusLivro.DISPONIVEL);
+            emprestimoNovo.getLivroEntity().setStatusLivro(StatusLivro.INDISPONIVEL);
+        }
+        emprestimoNovo.setStatus(true);
         EmprestimoEntity atualizado = emprestimoRepository.save(emprestimoNovo);
         EmprestimoDTO dto = objectMapper.convertValue(atualizado, EmprestimoDTO.class);
         dto.setContaClienteDTO(contaClienteService.getById(emprestimoNovo.getContaClienteEntity().getIdCliente()));
@@ -111,7 +133,8 @@ public class EmprestimoService {
         EmprestimoEntity entity = findById(id);
         LivroEntity livro = livroRepository.getById(emprestimoRepository.getById(id).getLivroEntity().getIdLivro());
         livro.setStatusLivro(StatusLivro.DISPONIVEL);
-        emprestimoRepository.delete(entity);
+        entity.setStatus(false);
+        emprestimoRepository.save(entity);
     }
 
 }

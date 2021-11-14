@@ -19,7 +19,7 @@ public class FuncionarioService {
     private final FuncionarioRepository funcionarioRepository;
     private final ObjectMapper objectMapper;
 
-    private FuncionarioEntity findById(Integer id) throws RegraDeNegocioException {
+    public FuncionarioEntity findById(Integer id) throws RegraDeNegocioException {
         FuncionarioEntity entity = funcionarioRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Funcionario não encontrado."));
         return entity;

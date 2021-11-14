@@ -24,7 +24,7 @@ public class EmprestimoController {
     private final EmprestimoService emprestimoService;
 
 
-    @ApiOperation(value = "Lista todos os empréstimos")
+    @ApiOperation(value = "Lista todos os empréstimos ativos.")
     @GetMapping
     public List<EmprestimoDTO> list() {
         return emprestimoService.list();

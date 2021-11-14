@@ -20,7 +20,7 @@ public class ContaClienteService  implements PlanosDeAssinatura {
     private final ContaClienteRepository contaClienteRepository;
     private final ObjectMapper objectMapper;
 
-    private ContaClienteEntity findById(Integer id) throws RegraDeNegocioException {
+    public ContaClienteEntity findById(Integer id) throws RegraDeNegocioException {
         ContaClienteEntity entity = contaClienteRepository.findById(id)
                 .orElseThrow(() -> new RegraDeNegocioException("Cliente não encontrado."));
         return entity;
