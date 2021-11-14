@@ -4,6 +4,7 @@ import com.dbc.biblioteca.dto.EmprestimoCreateDTO;
 import com.dbc.biblioteca.dto.EmprestimoDTO;
 import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
 import com.dbc.biblioteca.service.EmprestimoService;
+import freemarker.template.TemplateException;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -12,7 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -44,7 +47,7 @@ public class EmprestimoController {
             @ApiResponse(code = 500, message = "Exceção no sistema")
     })
     @PostMapping
-    public EmprestimoDTO create(@RequestBody @Valid EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
+    public EmprestimoDTO create(@RequestBody @Valid EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException, MessagingException, TemplateException, IOException {
         log.info("Iniciando a criação do Empréstimo...");
         EmprestimoDTO emprestimoEntityCriado = emprestimoService.create(emprestimoCreateDTO);
         log.info("Empréstimo criado com sucesso!");

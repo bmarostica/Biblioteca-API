@@ -9,9 +9,12 @@ import com.dbc.biblioteca.repository.EmprestimoRepository;
 import com.dbc.biblioteca.repository.FuncionarioRepository;
 import com.dbc.biblioteca.repository.LivroRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,6 +29,7 @@ public class EmprestimoService {
     private final LivroRepository livroRepository;
     private final ContaClienteRepository contaClienteRepository;
     private final FuncionarioRepository funcionarioRepository;
+    private final EmailService emailService;
 
     private EmprestimoEntity findById(Integer id) throws RegraDeNegocioException {
         EmprestimoEntity entity = emprestimoRepository.findById(id)
@@ -60,7 +64,7 @@ public class EmprestimoService {
         return dto;
     }
 
-    public EmprestimoDTO create(EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
+    public EmprestimoDTO create(EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException, MessagingException, TemplateException, IOException {
         funcionarioService.findById(emprestimoCreateDTO.getIdFuncionarioEmprestimo());
         contaClienteService.findById(emprestimoCreateDTO.getIdClienteEmprestimo());
         livroService.findById(emprestimoCreateDTO.getIdLivroEmprestimo());
@@ -81,6 +85,13 @@ public class EmprestimoService {
         entity.setContaClienteEntity(contaClienteRepository.getById(emprestimoCreateDTO.getIdClienteEmprestimo()));
         entity.setStatus(true);
         EmprestimoEntity emprestimoCriado = emprestimoRepository.save(entity);
+
+        if (entity.getContaClienteEntity().getPontosFidelidade() >= 1000) {
+            emailService.enviarEmailComTemplate(entity.getContaClienteEntity());
+            //TODO SO MANDAR O EMAIL UMA VEZ PARA O CLIENTE QUNADO ELE COMPLETAR MIL PONTOS
+            // E NÃO TODAS AS VEZES QUE ELE FIZER UM EMPRESTIMO
+        }
+
         EmprestimoDTO dto = objectMapper.convertValue(emprestimoCriado, EmprestimoDTO.class);
         dto.setLivroDTO(livroService.getById(entity.getLivroEntity().getIdLivro()));
         dto.setContaClienteDTO(contaClienteService.getById(entity.getContaClienteEntity().getIdCliente()));

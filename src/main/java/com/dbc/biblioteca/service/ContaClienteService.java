@@ -5,12 +5,16 @@ import com.dbc.biblioteca.dto.ContaClienteDTO;
 import com.dbc.biblioteca.entity.ContaClienteEntity;
 import com.dbc.biblioteca.entity.PlanosDeAssinatura;
 import com.dbc.biblioteca.entity.StatusCliente;
+import com.dbc.biblioteca.entity.TipoCliente;
 import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
 import com.dbc.biblioteca.repository.ContaClienteRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -19,6 +23,7 @@ import java.util.stream.Collectors;
 public class ContaClienteService  implements PlanosDeAssinatura {
     private final ContaClienteRepository contaClienteRepository;
     private final ObjectMapper objectMapper;
+    private final EmailService emailService;
 
     public ContaClienteEntity findById(Integer id) throws RegraDeNegocioException {
         ContaClienteEntity entity = contaClienteRepository.findById(id)
@@ -71,11 +76,9 @@ public class ContaClienteService  implements PlanosDeAssinatura {
         }
     }
 
-    public void PremioPontoFidelidade() {
-        ContaClienteEntity cliente = new ContaClienteEntity();
-        if (cliente.getPontosFidelidade() == 1000) {
-            System.out.println("Parabéns você acaba de ganhar 2 semanas como cliente premium");
-        }
-    }
+//    public void PremioPontoFidelidade(ContaClienteEntity cliente) throws MessagingException, TemplateException, IOException {
+//        emailService.enviarEmailComTemplate(cliente);
+//        //TODO ZERAR PONTOS DEPOIS DE GANHAR O PREMIO
+//    }
 }
 
