@@ -8,6 +8,7 @@ import com.dbc.biblioteca.entity.StatusCliente;
 import com.dbc.biblioteca.entity.TipoCliente;
 import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
 import com.dbc.biblioteca.repository.ContaClienteRepository;
+import com.dbc.biblioteca.repository.EmprestimoRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class ContaClienteService  implements PlanosDeAssinatura {
     private final ContaClienteRepository contaClienteRepository;
     private final ObjectMapper objectMapper;
     private final EmailService emailService;
+    private final EmprestimoRepository emprestimoRepository;
 
     public ContaClienteEntity findById(Integer id) throws RegraDeNegocioException {
         ContaClienteEntity entity = contaClienteRepository.findById(id)
@@ -53,18 +55,21 @@ public class ContaClienteService  implements PlanosDeAssinatura {
     }
 
     public ContaClienteDTO update(Integer id, ContaClienteCreateDTO contaClienteCreateDTO) throws RegraDeNegocioException {
-        getById(id);
+        ContaClienteEntity cliente = findById(id);
         ContaClienteEntity entity = objectMapper.convertValue(contaClienteCreateDTO, ContaClienteEntity.class);
         entity.setIdCliente(id);
+        entity.setPontosFidelidade(cliente.getPontosFidelidade());
         ContaClienteEntity update = contaClienteRepository.save(entity);
         ContaClienteDTO dto = objectMapper.convertValue(update, ContaClienteDTO.class);
         return dto;
     }
 
     public void delete(Integer id) throws RegraDeNegocioException {
-        ContaClienteDTO cliente = getById(id);
-        ContaClienteEntity clienteEntity = objectMapper.convertValue(cliente, ContaClienteEntity.class);
-        contaClienteRepository.delete(clienteEntity);
+        ContaClienteEntity entity = findById(id);
+//        if(contaClienteRepository.numeroDeEmprestimosCliente(id) > 0) {
+//            contaClienteRepository.deletarEmprestimoQueClienteDeletadoParticipa(id);
+//        }
+        contaClienteRepository.delete(entity);
     }
 
 

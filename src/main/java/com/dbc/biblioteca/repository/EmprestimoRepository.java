@@ -1,5 +1,6 @@
 package com.dbc.biblioteca.repository;
 
+import com.dbc.biblioteca.entity.ContaClienteEntity;
 import com.dbc.biblioteca.entity.EmprestimoEntity;
 import com.dbc.biblioteca.exceptions.RegraDeNegocioException;
 import org.springframework.data.jpa.repository.JpaRepository;
