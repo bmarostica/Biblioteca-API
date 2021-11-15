@@ -66,9 +66,6 @@ public class ContaClienteService  implements PlanosDeAssinatura {
 
     public void delete(Integer id) throws RegraDeNegocioException {
         ContaClienteEntity entity = findById(id);
-//        if(contaClienteRepository.numeroDeEmprestimosCliente(id) > 0) {
-//            contaClienteRepository.deletarEmprestimoQueClienteDeletadoParticipa(id);
-//        }
         contaClienteRepository.delete(entity);
     }
 

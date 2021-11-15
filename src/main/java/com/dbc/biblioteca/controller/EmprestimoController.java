@@ -68,26 +68,26 @@ public class EmprestimoController {
         }
 
 
-    @ApiOperation(value = "Altera o status do emprestimo para false pelo seu ID")
+    @ApiOperation(value = "Faz a devolução do livro e delete virtual.")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Empréstimo deletado com sucesso!"),
+            @ApiResponse(code = 400, message = "Empréstimo com dados inconsistentes"),
+            @ApiResponse(code = 500, message = "Exceção no sistema")
+    })
+    @DeleteMapping("/devolver-empréstimo")
+    public void alteraStatusEmpretimo(@RequestParam("idEmprestimo")Integer id) throws RegraDeNegocioException {
+        emprestimoService.updateStatusEmprestimo(id);
+    }
+
+    @ApiOperation(value = "Faz o delete fisico no banco de dados.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Empréstimo deletado com sucesso!"),
             @ApiResponse(code = 400, message = "Empréstimo com dados inconsistentes"),
             @ApiResponse(code = 500, message = "Exceção no sistema")
     })
     @DeleteMapping("/{idEmprestimo}")
-    public void alteraStatusEmpretimo(@PathVariable ("idEmprestimo")Integer id) throws RegraDeNegocioException {
-        emprestimoService.updateStatusEmprestimo(id);
+    public void delete(@PathVariable("idEmprestimo") Integer id) throws RegraDeNegocioException {
+        emprestimoService.delete(id);
     }
-
-//    @ApiOperation(value = "Deleta o emprestimo pelo seu ID")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Empréstimo deletado com sucesso!"),
-//            @ApiResponse(code = 400, message = "Empréstimo com dados inconsistentes"),
-//            @ApiResponse(code = 500, message = "Exceção no sistema")
-//    })
-//    @DeleteMapping("/{idEmprestimo}")
-//    public void delete(@PathVariable("idEmprestimo") Integer id) throws RegraDeNegocioException {
-//        emprestimoService.delete(id);
-//    }
 }
 

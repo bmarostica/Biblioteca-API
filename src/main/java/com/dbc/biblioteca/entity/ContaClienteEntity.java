@@ -37,7 +37,7 @@ public class ContaClienteEntity {
     private Integer pontosFidelidade;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "contaClienteEntity", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "contaClienteEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<EmprestimoEntity> emprestimosCliente;
 
 }

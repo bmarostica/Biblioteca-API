@@ -25,6 +25,6 @@ public class FuncionarioEntity {
     private String email;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "funcionarioEntity", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "funcionarioEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<EmprestimoEntity> emprestimosFuncionario;
 }

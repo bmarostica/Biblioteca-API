@@ -43,6 +43,6 @@ public class LivroEntity {
     private StatusLivro statusLivro;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "livroEntity", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "livroEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<EmprestimoEntity> emprestimosLivro;
 }
