@@ -74,7 +74,7 @@ public class EmprestimoController {
             @ApiResponse(code = 400, message = "Empréstimo com dados inconsistentes"),
             @ApiResponse(code = 500, message = "Exceção no sistema")
     })
-    @DeleteMapping("/{idEmprestimo}")
+    @DeleteMapping("/{idEmprestimo-status}")
     public void delete(@PathVariable("idEmprestimo") Integer id) throws RegraDeNegocioException {
         emprestimoService.delete(id);
     }
