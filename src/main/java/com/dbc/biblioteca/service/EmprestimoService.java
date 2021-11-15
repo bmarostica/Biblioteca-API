@@ -140,7 +140,7 @@ public class EmprestimoService {
         return dto;
     }
 
-    public void delete(Integer id) throws RegraDeNegocioException {
+    public void updateStatusEmprestimo(Integer id) throws RegraDeNegocioException {
         EmprestimoEntity entity = findById(id);
         LivroEntity livro = livroRepository.getById(emprestimoRepository.getById(id).getLivroEntity().getIdLivro());
         livro.setStatusLivro(StatusLivro.DISPONIVEL);
@@ -148,7 +148,7 @@ public class EmprestimoService {
         emprestimoRepository.save(entity);
     }
 
-    public void delete2(Integer id) throws RegraDeNegocioException {
+    public void delete(Integer id) throws RegraDeNegocioException {
         EmprestimoEntity entity = findById(id);
         emprestimoRepository.delete(entity);
     }

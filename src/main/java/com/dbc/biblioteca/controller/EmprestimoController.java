@@ -62,7 +62,7 @@ public class EmprestimoController {
             @ApiResponse(code = 500, message = "Exceção no sistema")
     })
     @PutMapping("/{idEmprestimo}")
-        public EmprestimoDTO update(@PathVariable("idEmprestimo") Integer id,
+        public EmprestimoDTO update(@PathVariable ("idEmprestimo")Integer id,
                                     @RequestBody @Valid EmprestimoCreateDTO emprestimoCreateDTO) throws RegraDeNegocioException {
         return emprestimoService.update(id, emprestimoCreateDTO);
         }
@@ -74,20 +74,20 @@ public class EmprestimoController {
             @ApiResponse(code = 400, message = "Empréstimo com dados inconsistentes"),
             @ApiResponse(code = 500, message = "Exceção no sistema")
     })
-    @DeleteMapping("/{idEmprestimo-status}")
-    public void delete(@PathVariable("idEmprestimo") Integer id) throws RegraDeNegocioException {
-        emprestimoService.delete(id);
+    @DeleteMapping("/{idEmprestimo}")
+    public void alteraStatusEmpretimo(@PathVariable ("idEmprestimo")Integer id) throws RegraDeNegocioException {
+        emprestimoService.updateStatusEmprestimo(id);
     }
 
-    @ApiOperation(value = "Deleta o emprestimo pelo seu ID")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Empréstimo deletado com sucesso!"),
-            @ApiResponse(code = 400, message = "Empréstimo com dados inconsistentes"),
-            @ApiResponse(code = 500, message = "Exceção no sistema")
-    })
-    @DeleteMapping("/{idEmprestimo}")
-    public void delete2(@PathVariable("idEmprestimo") Integer id) throws RegraDeNegocioException {
-        emprestimoService.delete2(id);
-    }
+//    @ApiOperation(value = "Deleta o emprestimo pelo seu ID")
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 200, message = "Empréstimo deletado com sucesso!"),
+//            @ApiResponse(code = 400, message = "Empréstimo com dados inconsistentes"),
+//            @ApiResponse(code = 500, message = "Exceção no sistema")
+//    })
+//    @DeleteMapping("/{idEmprestimo}")
+//    public void delete(@PathVariable("idEmprestimo") Integer id) throws RegraDeNegocioException {
+//        emprestimoService.delete(id);
+//    }
 }
 
