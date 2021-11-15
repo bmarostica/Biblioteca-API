@@ -148,4 +148,9 @@ public class EmprestimoService {
         emprestimoRepository.save(entity);
     }
 
+    public void delete2(Integer id) throws RegraDeNegocioException {
+        EmprestimoEntity entity = findById(id);
+        emprestimoRepository.delete(entity);
+    }
+
 }
