@@ -42,7 +42,7 @@ public class EmailService {
 
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
 
-        helper.setFrom(remetente);
+        helper.setFrom(remetente, "Biblioteca DBC");
         helper.setTo(cliente.getEmail());
         helper.setSubject("Premio Pontos Fidelidade Biblioteca");
 
