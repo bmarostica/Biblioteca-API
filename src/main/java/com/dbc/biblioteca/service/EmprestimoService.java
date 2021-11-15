@@ -86,7 +86,7 @@ public class EmprestimoService {
         entity.setStatus(true);
         EmprestimoEntity emprestimoCriado = emprestimoRepository.save(entity);
 
-        if (entity.getContaClienteEntity().getPontosFidelidade() >= 1000) {
+        if (entity.getContaClienteEntity().getPontosFidelidade() == 1000) {
             emailService.enviarEmailComTemplate(entity.getContaClienteEntity());
             //TODO SO MANDAR O EMAIL UMA VEZ PARA O CLIENTE QUNADO ELE COMPLETAR MIL PONTOS
             // E NÃO TODAS AS VEZES QUE ELE FIZER UM EMPRESTIMO

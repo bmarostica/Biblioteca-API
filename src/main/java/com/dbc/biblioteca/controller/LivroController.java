@@ -24,7 +24,7 @@ public class LivroController {
 
     private final LivroService livroService;
 
-    @ApiOperation("Cria um novo livro")
+    @ApiOperation("Cria um novo livro.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Livro criado com sucesso!"),
             @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
@@ -39,7 +39,7 @@ public class LivroController {
         return livro;
     }
 
-    @ApiOperation("Mostra uma lista com todos os livros")
+    @ApiOperation("Mostra uma lista com todos os livros.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Lista gerada com sucesso!"),
             @ApiResponse(code = 500, message = "Erro interno, exceção gerada")
@@ -49,7 +49,7 @@ public class LivroController {
         return livroService.list();
     }
 
-    @ApiOperation("Retorna uma lista de livros de acordo com a busca")
+    @ApiOperation("Retorna uma lista de livros de acordo com a busca.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
             @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
@@ -60,7 +60,7 @@ public class LivroController {
         return livroService.findByName("%" + titulo + "%");
     }
 
-    @ApiOperation("Retorna um livro de acordo com o ID informado")
+    @ApiOperation("Retorna um livro de acordo com o ID informado.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Busca realizada com sucesso!"),
             @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
@@ -74,7 +74,7 @@ public class LivroController {
         return livroDTO;
     }
 
-    @ApiOperation("Atualiza um livro existente.")
+    @ApiOperation("Atualiza um livro existente através do id.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Livro atualizado com sucesso!"),
             @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
@@ -89,7 +89,7 @@ public class LivroController {
         return livroDTO;
     }
 
-    @ApiOperation("Deleta um livro existente livro")
+    @ApiOperation("Deleta um livro existente através do id.")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Livro deletado com sucesso!"),
             @ApiResponse(code = 400, message = "Erro, informação inconsistente."),
