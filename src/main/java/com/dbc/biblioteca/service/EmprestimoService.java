@@ -88,8 +88,6 @@ public class EmprestimoService {
 
         if (entity.getContaClienteEntity().getPontosFidelidade() == 1000) {
             emailService.enviarEmailComTemplate(entity.getContaClienteEntity());
-            //TODO SO MANDAR O EMAIL UMA VEZ PARA O CLIENTE QUNADO ELE COMPLETAR MIL PONTOS
-            // E NÃO TODAS AS VEZES QUE ELE FIZER UM EMPRESTIMO
         }
 
         EmprestimoDTO dto = objectMapper.convertValue(emprestimoCriado, EmprestimoDTO.class);

@@ -14,7 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -90,16 +89,5 @@ public class EmprestimoController {
     public void alteraStatusEmpretimo(@PathVariable("idEmprestimo") Integer id) throws RegraDeNegocioException {
         emprestimoService.updateStatusEmprestimo(id);
     }
-
-//    @ApiOperation(value = "Faz o delete fisico no banco de dados.")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Empréstimo deletado com sucesso!"),
-//            @ApiResponse(code = 400, message = "Empréstimo com dados inconsistentes"),
-//            @ApiResponse(code = 500, message = "Exceção no sistema")
-//    })
-//    @DeleteMapping("/{idEmprestimo}")
-//    public void delete(@PathVariable("idEmprestimo") Integer id) throws RegraDeNegocioException {
-//        emprestimoService.delete(id);
-//    }
 }
 
