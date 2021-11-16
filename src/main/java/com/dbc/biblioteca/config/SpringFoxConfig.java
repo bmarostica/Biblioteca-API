@@ -23,7 +23,7 @@ public class SpringFoxConfig {
                 .build()
                 .useDefaultResponseMessages(false)
                 .apiInfo(new ApiInfoBuilder()
-                        .title("Biblioteca REST API")
+                        .title("Biblioteca DBC")
                         .description("App com SpringBoot")
                         .version("1.0.0")
                         .license("Apache License Version 2.0")
