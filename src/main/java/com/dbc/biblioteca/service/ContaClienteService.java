@@ -71,5 +71,7 @@ public class ContaClienteService  implements PlanosDeAssinatura {
             cliente.setPontosFidelidade((int) (cliente.getPontosFidelidade() - valor));
         }
     }
+
+    //public void pontosFidelidade()
 }
 

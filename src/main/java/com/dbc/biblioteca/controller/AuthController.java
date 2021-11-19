@@ -31,7 +31,7 @@ public class AuthController {
     public String auth(@RequestBody @Valid LoginDTO loginDTO) {
         UsernamePasswordAuthenticationToken user =
                 new UsernamePasswordAuthenticationToken(
-                        loginDTO.getUsuario(),
+                        loginDTO.getLogin(),
                         loginDTO.getSenha()
                 );
 
