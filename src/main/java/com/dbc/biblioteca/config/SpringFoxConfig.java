@@ -16,7 +16,7 @@ public class SpringFoxConfig {
 
     @Bean
     public Docket api() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.SWAGGER_2) //TODO CONFIGURAR SECURITY
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.dbc.biblioteca"))
                 .paths(PathSelectors.any())
