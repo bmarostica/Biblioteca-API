@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -24,7 +25,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/login").permitAll()
+                .antMatchers(HttpMethod.GET, "/livro/**").hasRole("CLIENTE")
+                .antMatchers("/livro/**", "/conta/**", "/emprestimo/**").hasRole("FUNCIONARIO")
+                .antMatchers("/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
 
                 //filtro de autenticação
@@ -34,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring().antMatchers("/swagger-ui/**",
-                "/v2/api-docs",  //TODO acho que tem que mudar esse nome pro da biblioteca
+                "/v2/api-docs",
                 "/swagger-ui.html",
                 "/swagger-resources/**");
 

@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class TokenService {
     static final String TOKEN_PREFIX = "Bearer";
     static final String HEADER_STRING = "Authorization";
-    private static final String CLAIN_PERMISSOES = "permissoes";
+    private static final String CLAIM_PERMISSOES = "permissoes";
 
     @Value("${jwt.expiration}")
     private String expiration;
@@ -42,7 +42,7 @@ public class TokenService {
 
         String jwtToken = Jwts.builder()
                 .setIssuer("pessoa-api")
-                .claim(CLAIN_PERMISSOES, permissoes)
+                .claim(CLAIM_PERMISSOES, permissoes)
                 .setSubject(usuario.getIdUsuario().toString())
                 .setIssuedAt(generateDate)
                 .setExpiration(exp)
@@ -63,7 +63,7 @@ public class TokenService {
 
             String user = claims.getSubject();
 
-            List<String> permissoes = (List<String>) claims.get(CLAIN_PERMISSOES);
+            List<String> permissoes = (List<String>) claims.get(CLAIM_PERMISSOES);
 
             List<GrantedAuthority> grantedAuthorities = permissoes.stream()
                     .map(permissao -> new SimpleGrantedAuthority(permissao))
