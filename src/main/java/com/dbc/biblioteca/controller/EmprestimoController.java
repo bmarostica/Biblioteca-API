@@ -87,7 +87,7 @@ public class EmprestimoController {
     })
     @DeleteMapping("/{idEmprestimo}")
     public void alteraStatusEmpretimo(@PathVariable("idEmprestimo") Integer id) throws RegraDeNegocioException {
-        emprestimoService.updateStatusEmprestimo(id);
+        emprestimoService.delete(id);
     }
 }
 
