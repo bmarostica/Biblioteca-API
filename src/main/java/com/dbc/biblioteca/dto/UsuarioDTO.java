@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 public class UsuarioDTO {
     private Integer idUsuario;
-    private String usuario;
-    private List<Integer> grupos;
+    private String login;
+    private List<Integer> regras;
 }

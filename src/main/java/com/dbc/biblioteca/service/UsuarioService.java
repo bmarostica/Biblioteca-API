@@ -20,18 +20,17 @@ public class UsuarioService {
         return usuarioRepository.findByLogin(login);
     }
 
-//    public UsuarioDTO create(UsuarioCreateDTO usuarioCreateDTO) {
-        //TODO VERIFICAR SE VAI SER UTILIZADO OS GRUPOS NO BANCO DE DADOS PARA PODER SETAR NO CRIAR USUARIO
-//        UsuarioEntity entity = new UsuarioEntity();
-//        entity.setLogin(usuarioCreateDTO.getUsuario());
-//        entity.setSenha(new BCryptPasswordEncoder().encode(usuarioCreateDTO.getSenha()));
-//        entity.setGrupos(
-//                usuarioCreateDTO.getGrupos().stream()
-//                        .map(grupoId -> grupoRepository.findById(grupoId)
-//                                .orElse(null))
-//                        .collect(Collectors.toList())
-//        );
-//        UsuarioEntity save = usuarioRepository.save(entity);
-//        return new UsuarioDTO(save.getIdUsuario(), save.getUsername(), save.getGrupos().stream().map(GrupoEntity::getIdGrupo).collect(Collectors.toList()));
-//    }
+    public UsuarioDTO create(UsuarioCreateDTO usuarioCreateDTO) {
+        UsuarioEntity entity = new UsuarioEntity();
+        entity.setLogin(usuarioCreateDTO.getLogin());
+        entity.setSenha(new BCryptPasswordEncoder().encode(usuarioCreateDTO.getSenha()));
+        entity.setRegras(
+                usuarioCreateDTO.getRegras().stream()
+                        .map(grupoId -> grupoRepository.findById(grupoId)
+                                .orElse(null))
+                        .collect(Collectors.toList())
+        );
+        UsuarioEntity save = usuarioRepository.save(entity);
+        return new UsuarioDTO(save.getIdUsuario(), save.getUsername(), save.getGrupos().stream().map(GrupoEntity::getIdGrupo).collect(Collectors.toList()));
+    }
 }

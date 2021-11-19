@@ -14,5 +14,4 @@ import java.util.concurrent.atomic.AtomicInteger;
 public interface EmprestimoRepository extends JpaRepository<EmprestimoEntity,Integer> {
     List<EmprestimoEntity> findByStatusTrue();
     List<EmprestimoEntity> findByStatusFalse();
-
 }

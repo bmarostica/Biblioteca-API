@@ -5,9 +5,8 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -17,20 +16,27 @@ import java.util.List;
 public class UsuarioEntity implements UserDetails {
 
     @Id
-    @Column(name = "")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_USUARIO")
     private Integer idUsuario;
 
-    @Column(name = "")
+    @Column(name = "LOGIN")
     private String login;
 
-    @Column(name = "")
+    @Column(name = "SENHA")
     private String senha;
 
-    //private List<GrupoEntity> grupos;  //TODO DEFINIR BANCO DE DADOS
+    @ManyToMany
+    @JoinTable(
+            name = "USUARIO_REGRA",
+            joinColumns = @JoinColumn(name = "id_usuario"),
+            inverseJoinColumns = @JoinColumn(name = "id_regra")
+    )
+    private List<RegraEntity> regras;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return regras;
     }
 
     @Override

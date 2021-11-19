@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsuarioCreateDTO {
-    private String usuario;
+    private String login;
     private String senha;
-    private List<Integer> grupos;
+    private List<Integer> regras;
 }
